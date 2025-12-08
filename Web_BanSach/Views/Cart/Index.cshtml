@@ -1,0 +1,174 @@
+﻿@model List<Web_BanSach.Models.GioHang>
+
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_LayoutSach.cshtml";
+}
+
+<style>
+    .cart-container {
+        padding: 25px;
+        background-color: #0f172a;
+        color: white;
+        min-height: 70vh;
+    }
+
+    .cart-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #49f135;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 10px;
+    }
+
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .cart-table th {
+            text-align: left;
+            padding: 12px;
+            background-color: #1e293b;
+            color: #a5f3fc;
+            font-size: 15px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .cart-table td {
+            padding: 15px;
+            border-bottom: 1px solid #334155;
+            vertical-align: middle;
+        }
+
+    .cart-img {
+        width: 80px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .qty-input {
+        width: 55px;
+        padding: 5px;
+        text-align: center;
+        background-color: #1e293b;
+        border: 1px solid #475569;
+        color: white;
+        border-radius: 6px;
+    }
+
+    .remove-btn {
+        background-color: #dc2626;
+        padding: 6px 12px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        transition: 0.2s;
+    }
+
+        .remove-btn:hover {
+            background-color: #b91c1c;
+        }
+
+    .checkout-box {
+        margin-top: 25px;
+        text-align: right;
+    }
+
+    .total-price {
+        font-size: 22px;
+        font-weight: bold;
+        color: #a5f3fc;
+    }
+
+    .checkout-btn {
+        margin-top: 15px;
+        padding: 12px 24px;
+        background-color: aquamarine;
+        color: black;
+        font-weight: bold;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+        .checkout-btn:hover {
+            opacity: 0.8;
+        }
+</style>
+
+<div class="cart-container" style="width:100%">
+    <div class="cart-title">Giỏ hàng của bạn</div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <h3 style="text-align:center; color:#94a3b8;">Giỏ hàng trống.</h3>
+        <div style="text-align:center; margin-top:20px;">
+            <a href="@Url.Action("Index", "Sach")"
+               style="padding:10px 20px; background-color:aquamarine; color:black; border-radius:6px; font-weight:bold;">
+                Tiếp tục mua Sách
+            </a>
+        </div>
+    }
+    else
+    {
+        <table class="cart-table">
+            <tr>
+                <th>Ảnh</th>
+                <th>Tên sách</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tạm tính</th>
+                <th>Xóa</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/Content/HinhAnh/@item.AnhBia" class="cart-img" />
+                    </td>
+                    <td>@item.TenSach</td>
+                    <td>@String.Format("{0:#,##0}", item.GiaBan) VNĐ</td>
+
+                    <td>
+                        <form method="post" action="@Url.Action("CapNhatGio", "Cart")">
+                            <input type="hidden" name="masach" value="@item.MaSach" />
+                            <input type="number" name="soluong" value="@item.SoLuong" min="1" class="qty-input" />
+                            <button type="submit"
+                                    style="margin-left:6px; background-color:#334155; padding:6px 10px; border-radius:6px; color:white; border:none;">
+                                OK
+                            </button>
+                        </form>
+                    </td>
+
+                    <td>@String.Format("{0:#,##0}", item.ThanhTien) VNĐ</td>
+
+                    <td>
+                        <a href="@Url.Action("XoaGio", "Cart", new { masach = item.MaSach })"
+                           class="remove-btn"
+                           onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này không?');">
+                            X
+                        </a>
+
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <div class="checkout-box">
+            <div class="total-price">
+                Tổng cộng: @String.Format("{0:#,##0}", ViewBag.TongTien) VNĐ
+            </div>
+            <div style="margin-top:20px">
+
+                <a href="@Url.Action("Checkout", "DatHang")" class="checkout-btn">
+                    Đặt hàng
+                </a>
+            </div>
+        </div>
+    }
+</div>

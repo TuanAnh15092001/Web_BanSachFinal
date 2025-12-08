@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Đặt hàng thành công";
+    Layout = "~/Views/Shared/_LayoutSach.cshtml";
+}
+
+<div style="padding: 40px; text-align: center; background-color: #f0fdf4; border-radius: 12px; margin: 50px auto; max-width: 600px;">
+    <h2 style="color: #22c55e;">🎉 Đặt hàng thành công!</h2>
+    <p style="font-size: 18px; color: #334155;">Cảm ơn bạn đã mua sách tại hệ thống của chúng tôi.</p>
+    <p style="font-size: 16px; color: #475569;">Đơn hàng của bạn đã được ghi nhận và sẽ được xử lý trong thời gian sớm nhất.</p>
+
+    <div style="margin-top: 30px;">
+        <a href="@Url.Action("Index", "Sach")"
+           style="padding: 12px 24px; background-color: #22c55e; color: white; border-radius: 8px; font-weight: bold; text-decoration: none;">
+            Tiếp tục mua sắm
+        </a>
+    </div>
+</div>

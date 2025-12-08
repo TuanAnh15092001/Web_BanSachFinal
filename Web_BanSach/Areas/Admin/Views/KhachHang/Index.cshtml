@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Web_BanSach.KHACHHANG>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayoutPage1.cshtml";
+}
+
+<style>
+    table {
+        background-color: #0f172a !important;
+        color: white !important;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        background-color: #0f172a !important;
+        color: #38bdf8 !important;
+        border-bottom: 1px solid #334155;
+        border-color: #334155 !important;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #0f172a !important;
+        color: red !important;
+        font-weight: 600;
+    }
+</style>
+
+<table class="table">
+    <tr>
+        <th>
+            Mã khách hàng
+        </th>
+        <th>
+            Tên khách hàng
+        </th>
+        <th>
+            Mật khẩu
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MAKHACHHANG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TENKHACHHANG)
+            </td>
+            <td>
+                <span id="pwd_@item.MAKHACHHANG">******</span>
+                <i class="fa-solid fa-eye" style="cursor:pointer;color:#38bdf8"
+                   onclick="togglePwd('@item.MAKHACHHANG','@item.MATKHAU')"></i>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SDT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMAIL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DIACHI)
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<script>
+    function togglePwd(id, realPwd) {
+        var span = document.getElementById("pwd_" + id);
+
+        if (span.innerText === "******") {
+            span.innerText = realPwd;
+        } else {
+            span.innerText = "******";
+        }
+    }
+</script>
+

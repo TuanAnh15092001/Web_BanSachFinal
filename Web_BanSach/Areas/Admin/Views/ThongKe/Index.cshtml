@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Web_BanSach.HOADON>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminLayoutPage1.cshtml";
+}
+
+<style>
+    table {
+        background-color: #0f172a !important;
+        color: white !important;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        background-color: #0f172a !important;
+        color: #38bdf8 !important;
+        border-bottom: 1px solid #334155;
+        border-color: #334155 !important;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #0f172a !important;
+        color: red !important;
+        font-weight: 600;
+    }
+</style>
+<h2>Bảng thống kê</h2>
+<table class="table" >
+    <tr>
+        <th>
+            Mã hoá đơn
+        </th>
+        <th>
+            Mã khách hàng
+        </th>
+        <th>
+            Ngày lập
+        </th>
+        <th>
+            Tổng tiền
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAHOADON)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MAKHACHHANG)
+        </td>
+        <td>
+            @String.Format("{0:dd/MM/yyyy}", item.NGAYLAP)
+        </td>
+        <td>
+            @String.Format("{0:#,##0}", item.TONGTIEN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DIACHI)
+        </td>
+    </tr>
+}
+
+</table>

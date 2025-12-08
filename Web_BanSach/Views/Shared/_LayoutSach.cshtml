@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>📚 Thư viện sách</title>
+    <link href="~/Content/Bootstrap/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/Css/Style.css" rel="stylesheet" />
+    <link href="~/Content/Css/DanhMuc.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="utf-8" />
+</head>
+
+
+<body>
+    @*header nav*@
+    <header class="bg-background\/75 backdrop-blur border-b border-gray-200 dark\:border-gray-800 -mb-px sticky top-0 z-50">
+        <div class="flex items-center justify-between gap-3 h-[--header-height] mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+            @*logo*@
+            <div class="lg\:flex-1 flex items-center gap-1\.5 register-container">
+                <a aria-current="page" href="/" class="router-link-active router-link-exact-active flex items-end gap-2 font-bold text-xl text-gray-900 dark:text-white" aria-label="Nuxt UI">
+                    <h1 class="flex items-center gap-2 w-auto h-auto" title="Thư viện sách online miễn phí">
+                        <span class="text-base lg:text-lg font-bold">Story<span style="color:#00ff21">Book</span></span>
+                    </h1>
+                </a>
+
+            </div>
+            @*Menu*@
+            <ul class=" flex items-center gap-x-8 lg:flex">
+                <li class="relative">
+                    <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item " href="@Url.Action("Index","Sach")" as="button" type="button" exact="false" exactquery="false" exacthash="false">
+                        <!--[-->
+                        Trang chủ
+                        <!--[-->
+                    </a>
+
+                </li>
+                <li class="relative">
+                    <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item " href="@Url.Action("Index","LienHe")" as="button" type="button" exact="false" exactquery="false" exacthash="false">
+                        <!--[-->
+                        Liên Hệ
+                        <!--[-->
+                    </a>
+
+                </li>
+            </ul>
+            <style>
+
+                .srch-icon {
+                    position: relative; /* quan trọng để badge nằm trên icon */
+                    background-color: none;
+                    border: none;
+                    cursor: pointer;
+                    padding: 8px 12px;
+                }
+
+                    .srch-icon i {
+                        color: white;
+                        font-size: 20px;
+                        transition: color 0.3s;
+                    }
+
+                    .srch-icon:hover i {
+                        color: #41f8d7;
+                    }
+
+                /* badge số lượng */
+                .cart-badge {
+                    position: absolute;
+                    top: -5px;
+                    right: -5px;
+                    background-color: red;
+                    color: white;
+                    font-size: 12px;
+                    padding: 2px 6px;
+                    border-radius: 50%;
+                    font-weight: bold;
+                }
+            </style>
+            <script>
+                function ThemGio(masach) {
+                    $.ajax({
+                        url: '/Cart/ThemGioAjax',
+                        type: 'GET',
+                        data: { masach: masach },
+                        success: function (res) {
+                            if (res.success) {
+                                $("#cart-count").text(res.count);
+                            }
+                        }
+                    });
+                }
+            </script>
+
+            @*mennu đăng nhập*@
+            <div class="flex items-center justify-end lg\:flex-1 gap-1\.5 ">
+                <div class=" lg:flex items-center gap-1\.5">
+                    <a href="@Url.Action("Index", "Cart")" class="srch-icon" style="position: relative;">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="cart-badge" id="cart-count">
+                            @{
+                                var gio = Session["GioHang"] as List<Web_BanSach.Models.GioHang>;
+                                int count = 0;
+                                if (gio != null)
+                                {
+                                    count = gio.Sum(x => x.SoLuong);
+                                }
+                            }
+                            <span class="cart-badge" id="cart-count">@count</span>
+                        </span>
+                    </a>
+
+                    @if (Session["TEN"] != null)
+                    {
+                        <span class="btn" style="color:#36eb21">Xin chào, @Session["TEN"]</span>
+                        <a style="color:aliceblue" href="@Url.Action("DangXuat", "Acount")" class="btn-login">Đăng xuất</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login","Acount")" style="background-color:darkblue" class="btn-login"> Đăng nhập</a>
+                        <a href="@Url.Action("Register","Acount")" class="btn-login">Đăng ký</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </header>
+    <Main>
+        <div class="content-wrapper">
+            @Html.Action("_DanhMuc", "DanhMuc", new { area = "" })
+            @RenderBody()
+        </div>
+    </Main>
+    @*</footer>-->*@
+    <footer class="text-center text-lg-start " style="background-color: #0f172a; color:white;">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>Kết nối với tôi nếu bạn cần:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="https://www.facebook.com/TuanAnh15092001/" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://mail.google.com/mail/u/0/" class="me-4 text-reset">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="https://www.instagram.com/tunna_159/" class="me-4 text-reset">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/tu%E1%BA%A5n-anh-nguy%E1%BB%85n-683b71267/" class="me-4 text-reset">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/TuanAnh15092001" class="me-4 text-reset">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class=""></i>📚 Story <span style="color:#00ff21">Book</span>
+                        </h6>
+                        <p>
+                            Bài tập cuối môn Lập trình Web, Web bán sách đầy đủ chức năng, từ người dùng đến quản lý của nhóm 5
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Thành viên
+                        </h6>
+                        <p>
+                            <a href="#!" class="text-reset">Nguyễn Tuấn Anh</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">La Thuận Phát</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Nguyễn Hà Trọng Phúc</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Đinh Tấn Huy</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            giáo viên hướng dẫn
+                        </h6>
+                        <p>
+                            <a href="#!" class="text-reset">Huỳnh Thị Cẩm Dung</a>
+                        </p>
+                        <p>
+                            <a href="https://www.youtube.com/channel/UCuMITT7oXJMM5t0tNMJUrXA" class="text-reset">Đinh Nguyễn Trọng Nghĩa</a>
+                        </p>
+                        <p>
+                            <a href="https://chatgpt.com/" class="text-reset">chat GPT</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">liên hệ</h6>
+                        <p><i class="fas fa-home me-3"></i>HUIT</p>
+                        <p>
+                            <i class="fas fa-envelope me-3"></i>
+                            nguyentuan1592001@gmail.com
+                        </p>
+                        <p><i class="fas fa-phone me-3"></i> 0369829547</p>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2025 Copyright:
+            <a class="text-reset fw-bold" href="https://www.facebook.com/TuanAnh15092001">nguyentuan1592001@gmail.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+</body>
+</html>

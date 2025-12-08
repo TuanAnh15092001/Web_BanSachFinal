@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutSach.cshtml";
+}
+<script src="https://esgoo.net/scripts/jquery.js"></script>
+<style type="text/css">
+    .css_select_div {
+        text-align: center;
+    }
+
+    .css_select {
+        display: inline-table;
+        width: 25%;
+        padding: 5px;
+        margin: 5px 2%;
+        border: solid 1px #686868;
+        border-radius: 5px;
+    }
+</style>
+<div class="container">
+    <div class=" login-container mt-4" style="width:400px; margin:auto">
+        <div class="card shadow-lg p-3">
+            <h3 class="card-title text-center fw-bold text-primary mb-4">Đăng ký</h3>
+            @if (ViewBag.Loi != null)
+            {
+                <p style="color:red">@ViewBag.Loi</p>
+            }
+            @using (Html.BeginForm("Register", "Acount", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label for="RegisterTenKH" class="form-label">Tên khách hàng</label>
+                    <input type="text" name="TENKHACHHANG" class="form-control"  required>
+                </div>
+                <div class="mb-3">
+                    <label for="RegisterEmail" class="form-label">Email</label>
+                    <input type="email" name="EMAIL" class="form-control"  required>
+                </div>
+                <div class="mb-3">
+                    <label for="RegisterPassword" class="form-label">Mật khẩu</label>
+                    <input type="password" name="MATKHAU" class="form-control"  required>
+                </div>
+                <div class="mb-3">
+                    <label for="RegisterSDT" class="form-label">Số điện thoại</label>
+                    <input type="number" name="SDT" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <select class="css_select form-control" id="tinh" name="DIACHI" title="Chọn Tỉnh Thành" style="width:180px">
+                        <option value="">Tỉnh Thành</option></select>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" style="margin: 0;" class="btn btn-primary w-100 mb-3">ĐĂNG KÝ</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        //Lấy tỉnh thành
+        $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+            if (data_tinh.error == 0) {
+                $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                    $("#tinh").append('<option value="' + val_tinh.full_name + '">' + val_tinh.full_name + '</option>');
+
+                });
+                $("#tinh").change(function (e) {
+                    var idtinh = $(this).val();
+                    //Lấy quận huyện
+                    $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                        if (data_quan.error == 0) {
+                            $("#quan").html('<option value="0">Quận Huyện</option>');
+                            $("#phuong").html('<option value="0">Phường Xã</option>');
+                            $.each(data_quan.data, function (key_quan, val_quan) {
+                                $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
+                            });
+                            //Lấy phường xã
+                            $("#quan").change(function (e) {
+                                var idquan = $(this).val();
+                                $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                                    if (data_phuong.error == 0) {
+                                        $("#phuong").html('<option value="0">Phường Xã</option>');
+                                        $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                                            $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
+                                        });
+                                    }
+                                });
+                            });
+
+                        }
+                    });
+                });
+
+            }
+        });
+    });
+</script>
