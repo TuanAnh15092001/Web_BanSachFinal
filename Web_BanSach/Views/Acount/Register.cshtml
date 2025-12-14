@@ -1,98 +1,297 @@
 ﻿@{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Đăng ký";
     Layout = "~/Views/Shared/_LayoutSach.cshtml";
 }
+
 <script src="https://esgoo.net/scripts/jquery.js"></script>
-<style type="text/css">
-    .css_select_div {
-        text-align: center;
+
+<style>
+    .register-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        padding: 40px;
+        width: 100%;
+        max-width: 420px;
+        margin: 40px auto;
+        animation: slideUp 0.5s ease-out;
     }
 
-    .css_select {
-        display: inline-table;
-        width: 25%;
-        padding: 5px;
-        margin: 5px 2%;
-        border: solid 1px #686868;
-        border-radius: 5px;
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .register-card .card-title {
+        color: #0f172a;
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .register-card .subtitle {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    .register-card .form-label {
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .register-card .form-control {
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 12px 16px;
+        padding-left: 45px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+        .register-card .form-control:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+            outline: none;
+        }
+
+    .register-card .btn-submit {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 14px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+        .register-card .btn-submit:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+
+    .register-card .divider {
+        display: flex;
+        align-items: center;
+        margin: 25px 0;
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+        .register-card .divider::before,
+        .register-card .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .register-card .divider span {
+            padding: 0 15px;
+        }
+
+    .register-card .link-text {
+        text-align: center;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+        .register-card .link-text a {
+            color: #10b981;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .register-card .link-text a:hover {
+                color: #059669;
+                text-decoration: underline;
+            }
+
+    .register-card .input-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .register-card .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        z-index: 10;
+    }
+
+    .register-card .logo-section {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+        .register-card .logo-section i {
+            font-size: 50px;
+            color: #10b981;
+        }
+
+    .error-message {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #dc2626;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .register-card select.form-control {
+        padding-left: 45px;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 12px center;
+        background-repeat: no-repeat;
+        background-size: 20px;
     }
 </style>
+
 <div class="container">
-    <div class=" login-container mt-4" style="width:400px; margin:auto">
-        <div class="card shadow-lg p-3">
-            <h3 class="card-title text-center fw-bold text-primary mb-4">Đăng ký</h3>
-            @if (ViewBag.Loi != null)
-            {
-                <p style="color:red">@ViewBag.Loi</p>
-            }
-            @using (Html.BeginForm("Register", "Acount", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                <div class="mb-3">
-                    <label for="RegisterTenKH" class="form-label">Tên khách hàng</label>
-                    <input type="text" name="TENKHACHHANG" class="form-control"  required>
-                </div>
-                <div class="mb-3">
-                    <label for="RegisterEmail" class="form-label">Email</label>
-                    <input type="email" name="EMAIL" class="form-control"  required>
-                </div>
-                <div class="mb-3">
-                    <label for="RegisterPassword" class="form-label">Mật khẩu</label>
-                    <input type="password" name="MATKHAU" class="form-control"  required>
-                </div>
-                <div class="mb-3">
-                    <label for="RegisterSDT" class="form-label">Số điện thoại</label>
-                    <input type="number" name="SDT" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <select class="css_select form-control" id="tinh" name="DIACHI" title="Chọn Tỉnh Thành" style="width:180px">
-                        <option value="">Tỉnh Thành</option></select>
-                </div>
-                <div class="mb-3">
-                    <button type="submit" style="margin: 0;" class="btn btn-primary w-100 mb-3">ĐĂNG KÝ</button>
-                </div>
-            }
+    <div class="register-card">
+        <!-- Logo -->
+        <div class="logo-section">
+            <i class="fas fa-user-plus"></i>
         </div>
+
+        <!-- Title -->
+        <h3 class="card-title text-center fw-bold">Tạo tài khoản mới</h3>
+        <p class="subtitle text-center">Đăng ký để trải nghiệm dịch vụ</p>
+
+        <!-- Error Message -->
+        @if (ViewBag.Loi != null)
+        {
+            <div class="error-message">
+                <i class="fas fa-exclamation-circle me-2"></i>@ViewBag.Loi
+            </div>
+        }
+
+        <!-- Form đăng ký -->
+        @using (Html.BeginForm("Register", "Acount", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <!-- Tên khách hàng -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-user me-2"></i>Tên khách hàng
+                </label>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                    <input type="text"
+                           name="TENKHACHHANG"
+                           class="form-control"
+                           placeholder="Nhập họ và tên"
+                           required>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-envelope me-2"></i>Email
+                </label>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                    <input type="email"
+                           name="EMAIL"
+                           class="form-control"
+                           placeholder="Nhập email của bạn"
+                           required>
+                </div>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-lock me-2"></i>Mật khẩu
+                </label>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                    <input type="password"
+                           name="MATKHAU"
+                           class="form-control"
+                           placeholder="Nhập mật khẩu"
+                           required>
+                </div>
+            </div>
+
+            <!-- Số điện thoại -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-phone me-2"></i>Số điện thoại
+                </label>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-phone"></i></span>
+                    <input type="tel"
+                           name="SDT"
+                           class="form-control"
+                           placeholder="Nhập số điện thoại"
+                           required>
+                </div>
+            </div>
+
+            <!-- Địa chỉ (Tỉnh thành) -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-map-marker-alt me-2"></i>Tỉnh/Thành phố
+                </label>
+                <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <select class="form-control" id="tinh" name="DIACHI" required>
+                        <option value="">-- Chọn Tỉnh Thành --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-user-plus me-2"></i>ĐĂNG KÝ
+            </button>
+        }
+
+        <!-- Divider -->
+        <div class="divider">
+            <span>hoặc</span>
+        </div>
+
+        <!-- Login Link -->
+        <p class="link-text">
+            Đã có tài khoản?
+            <a href="@Url.Action("Login", "Acount")">
+                <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập ngay
+            </a>
+        </p>
     </div>
 </div>
 
-
 <script>
     $(document).ready(function () {
-        //Lấy tỉnh thành
+        // Lấy tỉnh thành
         $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
             if (data_tinh.error == 0) {
                 $.each(data_tinh.data, function (key_tinh, val_tinh) {
                     $("#tinh").append('<option value="' + val_tinh.full_name + '">' + val_tinh.full_name + '</option>');
-
                 });
-                $("#tinh").change(function (e) {
-                    var idtinh = $(this).val();
-                    //Lấy quận huyện
-                    $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
-                        if (data_quan.error == 0) {
-                            $("#quan").html('<option value="0">Quận Huyện</option>');
-                            $("#phuong").html('<option value="0">Phường Xã</option>');
-                            $.each(data_quan.data, function (key_quan, val_quan) {
-                                $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.full_name + '</option>');
-                            });
-                            //Lấy phường xã
-                            $("#quan").change(function (e) {
-                                var idquan = $(this).val();
-                                $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
-                                    if (data_phuong.error == 0) {
-                                        $("#phuong").html('<option value="0">Phường Xã</option>');
-                                        $.each(data_phuong.data, function (key_phuong, val_phuong) {
-                                            $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.full_name + '</option>');
-                                        });
-                                    }
-                                });
-                            });
-
-                        }
-                    });
-                });
-
             }
         });
     });

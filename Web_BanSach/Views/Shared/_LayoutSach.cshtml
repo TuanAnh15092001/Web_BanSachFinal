@@ -126,9 +126,23 @@
         </div>
     </header>
     <Main>
-        <div class="content-wrapper">
-            @Html.Action("_DanhMuc", "DanhMuc", new { area = "" })
-            @RenderBody()
+        <div class="content-wrapper" style="display: flex; min-height: calc(100vh - 200px);">
+            @{
+                var controller = ViewContext.RouteData.Values["controller"].ToString();
+                var action = ViewContext.RouteData.Values["action"].ToString();
+
+                // Ẩn danh mục ở trang Login/Register
+                bool hideSidebar = (controller == "Acount" && (action == "Login" || action == "Register"));
+            }
+
+            @if (!hideSidebar)
+            {
+                @Html.Action("_DanhMuc", "DanhMuc", new { area = "" })
+            }
+
+            <div class="main-content" style="flex: 1; @(hideSidebar ? "width: 100%;" : "")">
+                @RenderBody()
+            </div>
         </div>
     </Main>
     @*</footer>-->*@
