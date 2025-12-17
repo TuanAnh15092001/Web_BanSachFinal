@@ -1,70 +1,52 @@
 ﻿@model Web_BanSach.NHAXUATBAN
 
 @{
+    <link href="~/Areas/Css/XoaLoai.css" rel="stylesheet" />
     ViewBag.Title = "ViewDelete";
 }
 
-    @using (Html.BeginForm("DeleteSubmit", "NhaXuatBan")) 
+<section class="delete-container">
+    @using (Html.BeginForm("DeleteSubmit", "NhaXuatBan", new { area = "Admin" }, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-<div>
-<h5 style="color:red">Bạn có muốn xoá @Model.TENNXB này không?</h5>
-    <hr />
-    <dl class="dl-horizontal mauchu">
-        <dd>
-            @*@Html.DisplayFor(model => model.MANXB)*@
-            @Html.HiddenFor(model => model.MANXB)
-        </dd>
+        @Html.HiddenFor(model => model.MANXB)
 
-        <dt>
-            Tên NXB
-        </dt>
+        <div class="delete-card">
+            <!-- Header -->
+            <div class="delete-header">
+                <div class="delete-icon">
+                    <i class="fa-solid fa-trash-can"></i>
+                </div>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TENNXB)
-        </dd>
+            <!-- Body -->
+            <div class="delete-body">
+                <div class="category-info">
+                    <div class="category-label">Nhà xuất bản sẽ bị xóa</div>
 
-        <dt>
-            Địa chỉ
-        </dt>
+                    <h3 class="category-name">
+                        <i class="fa-solid fa-tag"></i>
+                        @Model.TENNXB
+                    </h3>
 
-        <dd>
-            @Html.DisplayFor(model => model.DIACHI)
-        </dd>
-    </dl>
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn-save" />
-            @Html.ActionLink("Back to List", "Index")
+                    <div class="id-badge">
+                        <i class="fa-solid fa-hashtag"></i>
+                        Mã nhà xuất bản: @Model.MANXB
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="delete-footer">
+                <a href="@Url.Action("Index", "NhaXuatBan", new { area = "Admin" })" class="btn-back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Hủy bỏ
+                </a>
+                <button type="submit" class="btn-delete">
+                    <i class="fa-solid fa-trash-can"></i>
+                    Xóa
+                </button>
+            </div>
         </div>
-</div>
     }
-
-<style>
-
-    .btn-save {
-        display: inline-block;
-        background-color: #4ade80; /* xanh lá nhạt */
-        color: #0f172a;
-        padding: 10px 18px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: 0.25s;
-        margin-bottom: 15px;
-        margin-top: 15px;
-        margin-right: 15px;
-    }
-
-        .btn-save:hover {
-            background-color: #16a34a; /* xanh lá đậu */
-            color: white;
-        }
-
-    .mauchu {
-        color: white;
-    }
-
-    .padding {
-        padding: 4px 4px 4px 4px;
-    }
-</style>
+</section>

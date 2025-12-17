@@ -8,6 +8,7 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <link href="~/Content/Css/Style.css" rel="stylesheet" />
     <link href="~/Content/Css/DanhMuc.css" rel="stylesheet" />
+    <link href="~/Content/Css/btn.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <meta charset="utf-8" />
 </head>
@@ -18,14 +19,49 @@
     <header class="bg-background\/75 backdrop-blur border-b border-gray-200 dark\:border-gray-800 -mb-px sticky top-0 z-50">
         <div class="flex items-center justify-between gap-3 h-[--header-height] mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             @*logo*@
-            <div class="lg\:flex-1 flex items-center gap-1\.5 register-container">
-                <a aria-current="page" href="/" class="router-link-active router-link-exact-active flex items-end gap-2 font-bold text-xl text-gray-900 dark:text-white" aria-label="Nuxt UI">
-                    <h1 class="flex items-center gap-2 w-auto h-auto" title="Thư viện sách online miễn phí">
-                        <span class="text-base lg:text-lg font-bold">Story<span style="color:#00ff21">Book</span></span>
-                    </h1>
+            <div class="brand-container">
+                <a href="@Url.Action("Index", "Sach")" class="brand-link" title="Thư viện sách online miễn phí">
+                    <span class="brand-icon">📚</span>
+                    <span class="brand-text">
+                        <span style="color:white">Story</span> <span class="brand-highlight">Book</span>
+                    </span>
                 </a>
-
             </div>
+
+            <style>
+                .brand-container {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .brand-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    text-decoration: none;
+                    transition: transform 0.3s ease;
+                }
+
+                    .brand-link:hover {
+                        transform: scale(1.05);
+                    }
+
+                .brand-icon {
+                    font-size: 28px;
+                }
+
+                .brand-text {
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: #1a1a2e;
+                    letter-spacing: -0.5px;
+                }
+
+                .brand-highlight {
+                    color: #00ff21;
+                    text-shadow: 0 0 10px rgba(0, 255, 33, 0.3);
+                }
+            </style>
             @*Menu*@
             <ul class=" flex items-center gap-x-8 lg:flex">
                 <li class="relative">
@@ -110,23 +146,114 @@
                             <span class="cart-badge" id="cart-count">@count</span>
                         </span>
                     </a>
+                    &nbsp;&nbsp;
+                    <style>
+                        /* Container chứa dropdown */
+                        .dropdown {
+                            position: relative;
+                            display: inline-block;
+                        }
 
+                            /* Nút chính */
+                            .dropdown .btn {
+                                color: #36eb21;
+                                cursor: pointer;
+                                padding: 10px 15px;
+                                background: none;
+                                border: none;
+                            }
+
+                        /* Menu dropdown - ẩn mặc định */
+                        .dropdown-menu {
+                            display: none;
+                            position: absolute;
+                            top: 100%;
+                            right: 0;
+                            background-color: #0f172a;
+                            min-width: 180px;
+                            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                            border-radius: 8px;
+                            z-index: 1000;
+                            overflow: hidden;
+                        }
+
+                        /* Hiện menu khi hover */
+                        .dropdown:hover .dropdown-menu {
+                            display: block;
+                        }
+
+                        /* Style cho các item trong menu */
+                        .dropdown-menu a {
+                            display: block;
+                            padding: 12px 16px;
+                            text-decoration: none;
+                            color: #ffffff;
+                            transition: all 0.2s;
+                        }
+
+                            .dropdown-menu a:hover {
+                                background-color: #f5f5f5;
+                                color: #0f172a;
+                            }
+
+                            /* Icon cho menu items */
+                            .dropdown-menu a i {
+                                margin-right: 10px;
+                                width: 16px;
+                            }
+
+                        /* Đường kẻ phân cách */
+                        .dropdown-menu .divider {
+                            height: 1px;
+                            background-color: #eee;
+                            margin: 5px 0;
+                        }
+
+                        /* Style riêng cho đăng xuất */
+                        .dropdown-menu a.logout:hover {
+                            background-color: #fee;
+                            color: #dc3545;
+                        }
+                    </style>
                     @if (Session["TEN"] != null)
                     {
-                        <span class="btn" style="color:#36eb21">Xin chào, @Session["TEN"]</span>
-                        <a style="color:aliceblue" href="@Url.Action("DangXuat", "Acount")" class="btn-login">Đăng xuất</a>
+
+                        <div class="dropdown">
+                            <a class="btn">
+                                <i class="fa fa-user"></i> Xin chào, @Session["TEN"]
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="#">
+                                    <i class="fa fa-eye"></i> Xem thông tin
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-edit"></i> Sửa thông tin
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-edit"></i> Thông tin đơn hàng
+                                </a>
+                                <div class="divider"></div>
+                                <a href="@Url.Action("DangXuat", "Acount")" class="logout">
+                                    <i class="fa fa-sign-out"></i> Đăng xuất
+                                </a>
+                            </div>
+                        </div>
                     }
                     else
                     {
-                        <a href="@Url.Action("Login","Acount")" style="background-color:darkblue" class="btn-login"> Đăng nhập</a>
-                        <a href="@Url.Action("Register","Acount")" class="btn-login">Đăng ký</a>
+                        <a href="@Url.Action("Login","Acount")" class="btn btn-primary">
+                            <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                        </a>
+                        <a href="@Url.Action("Register","Acount")" class="btn btn-outline-info">
+                            <i class="fa-solid fa-user-plus"></i> Đăng ký
+                        </a>
                     }
                 </div>
             </div>
         </div>
     </header>
     <Main>
-        <div class="content-wrapper" style="display: flex; min-height: calc(100vh - 200px);">
+        <div class="content-wrapper">
             @{
                 var controller = ViewContext.RouteData.Values["controller"].ToString();
                 var action = ViewContext.RouteData.Values["action"].ToString();
@@ -184,7 +311,7 @@
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <!-- Content -->
                         <h6 class="text-uppercase fw-bold mb-4">
-                            <i class=""></i>📚 Story <span style="color:#00ff21">Book</span>
+                            📚<i style="color:white"> Story </i><span class="brand-highlight">Book</span>
                         </h6>
                         <p>
                             Bài tập cuối môn Lập trình Web, Web bán sách đầy đủ chức năng, từ người dùng đến quản lý của nhóm 5

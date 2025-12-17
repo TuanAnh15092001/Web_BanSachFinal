@@ -1,100 +1,145 @@
 ﻿@model IEnumerable<Web_BanSach.LOAISACH>
 
 @{
-    ViewBag.Title = "Edit Loại";
+    ViewBag.Title = "Quản lý Loại Sách";
+    <link href="~/Areas/Css/IndexLoai.css" rel="stylesheet" />
 }
-<style>
-    table {
-        background-color: #0f172a !important;
-        color: white !important;
-        width: 100%;
-        border-collapse: collapse;
-    }
+<section class="admin-container">
+    <!-- Header -->
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fa-solid fa-layer-group"></i>
+            Quản lý Loại Sách
+            <span class="badge-count">@Model.Count() loại</span>
+        </h1>
 
-    th, td {
-        background-color: #0f172a !important;
-        color: #38bdf8 !important;
-        border-bottom: 1px solid #334155;
-        border-color: #334155 !important;
-        padding: 8px;
-    }
-
-    th {
-        background-color: #0f172a !important;
-        color: red !important;
-        font-weight: 600;
-    }
-
-    /* Button thêm sách */
-    .btn-add {
-        display: inline-block;
-        background-color: #4ade80; /* xanh lá nhạt */
-        color: #0f172a;
-        padding: 5px 10px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: 0.25s;
-        margin-bottom: 15px;
-    }
-
-        .btn-add:hover {
-            background-color: #16a34a; /* xanh lá đậu */
-            color: white;
-        }
-
-    img {
-        border-radius: 6px;
-        object-fit: cover;
-    }
-    .fa-pen-to-square {
-        color: #38bdf8;
-    }
-
-    .fa-trash {
-        color: red;
-    }
-
-        .fa-pen-to-square:hover, .fa-trash:hover {
-            opacity: 0.7;
-        }
-</style>
-<section style="width:100%">
-    <div class="btn-add">
-@Html.ActionLink("Thêm Loại", "ThemLoai", new { area = "Admin" })
+        <a href="@Url.Action("ThemLoai", "LoaiSach", new { area = "Admin" })" class="btn-add">
+            <i class="fa-solid fa-plus"></i>
+            Thêm Loại Mới
+        </a>
     </div>
-    
-<table class="table">
-    <tr>
-        <th>
-            Mã loại
-        </th>
-        <th>
-            Tên Loại
-        </th>
-        <th></th>
-    </tr>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.MALOAI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TENLOAI)
-        </td>
-        <td>
-            @*@Html.ActionLink("Chỉnh sửa", "ViewEdit", new { Loaisach_id = item.MALOAI }) |
-        @Html.ActionLink("Xoá", "ViewDelete", new { Loaisach_id = item.MALOAI })*@
-            <a href="@Url.Action("ViewEdit", new { Loaisach_id = item.MALOAI })" title="Sửa">
-                <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            |
-            <a href="@Url.Action("ViewDelete", new { Loaisach_id = item.MALOAI })" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa?');">
-                <i class="fa-solid fa-trash"></i>
-            </a>
-        </td>
-    </tr>
-}
 
-</table>
+    <!-- Table Card -->
+    <div class="table-card">
+        @if (Model.Any())
+        {
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">
+                            <i class="fa-solid fa-hashtag" style="margin-right: 6px;"></i>Mã
+                        </th>
+                        <th>
+                            <i class="fa-solid fa-bookmark" style="margin-right: 6px;"></i>Tên Loại
+                        </th>
+                        <th style="width: 120px; text-align: center;">
+                            <i class="fa-solid fa-gear" style="margin-right: 6px;"></i>Thao tác
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <span class="category-id">@item.MALOAI</span>
+                            </td>
+                            <td>
+                                <span class="category-name">
+                                    <i class="fa-solid fa-tag"></i>
+                                    @item.TENLOAI
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="@Url.Action("ViewEdit", new { Loaisach_id = item.MALOAI })"
+                                       class="btn-action btn-edit"
+                                       title="Chỉnh sửa">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn-action btn-delete"
+                                            title="Xóa"
+                                            onclick="showDeleteModal('@item.MALOAI', '@item.TENLOAI')">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fa-solid fa-folder-open"></i>
+                <p>Chưa có loại sách nào. Hãy thêm loại sách mới!</p>
+            </div>
+        }
+    </div>
 </section>
+
+<!-- ==================== DELETE CONFIRMATION MODAL ==================== -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div class="modal-icon">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+        </div>
+        <div class="modal-body">
+            <p>Bạn có chắc chắn muốn xóa loại sách này?</p>
+            <div class="modal-item-name" id="deleteItemName">
+                <!-- Tên loại sách sẽ được hiển thị ở đây -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-btn modal-btn-cancel" onclick="hideDeleteModal()">
+                <i class="fa-solid fa-xmark"></i>
+                Hủy bỏ
+            </button>
+            <a href="#" class="modal-btn modal-btn-confirm" id="confirmDeleteBtn">
+                <i class="fa-solid fa-trash-can"></i>
+                Đi tới
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Hiển thị modal xóa
+    function showDeleteModal(id, name) {
+        const modal = document.getElementById('deleteModal');
+        const itemName = document.getElementById('deleteItemName');
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+
+        // Hiển thị tên loại sách
+        itemName.textContent = name;
+
+        // Cập nhật link xóa
+        confirmBtn.href = '@Url.Action("ViewDelete")' + '?Loaisach_id=' + id;
+
+        // Hiển thị modal
+        modal.classList.add('active');
+
+        // Ngăn scroll trang
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Ẩn modal xóa
+    function hideDeleteModal() {
+        const modal = document.getElementById('deleteModal');
+        modal.classList.remove('active');
+
+        // Cho phép scroll lại
+        document.body.style.overflow = 'auto';
+    }
+
+    // Đóng modal khi click bên ngoài
+    document.getElementById('deleteModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideDeleteModal();
+        }
+    });
+</script>

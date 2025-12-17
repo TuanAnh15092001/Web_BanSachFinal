@@ -94,6 +94,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Css\IndexLoai.css" />
+    <Content Include="Areas\Css\IndexNXB.css" />
+    <Content Include="Areas\Css\SuaSach.css" />
+    <Content Include="Areas\Css\ThemLoai.css" />
+    <Content Include="Areas\Css\ThemSach.css" />
+    <Content Include="Areas\Css\IndexSach.css" />
+    <Content Include="Areas\Css\XoaLoai.css" />
+    <Content Include="Areas\Css\XoaSach.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.min.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.rtl.css" />
@@ -110,6 +118,7 @@
     <Content Include="Content\Bootstrap\bootstrap.min.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
+    <Content Include="Content\Css\btn.css" />
     <Content Include="Content\Css\DanhMuc.css" />
     <Content Include="Content\Css\Home.css" />
     <Content Include="Content\Css\Login.css" />
@@ -196,6 +205,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\DanhMucController.cs" />
     <Compile Include="Controllers\DatHangController.cs" />
+    <Compile Include="Controllers\KhachHangController.cs" />
     <Compile Include="Controllers\LienHeController.cs" />
     <Compile Include="Controllers\SachController.cs" />
     <Compile Include="Global.asax.cs">

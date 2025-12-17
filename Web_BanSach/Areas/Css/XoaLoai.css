@@ -1,0 +1,226 @@
+﻿.delete-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+/* Card chính */
+.delete-card {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+    border: 1px solid #334155;
+    width:400px;
+}
+
+/* Header cảnh báo */
+.delete-header {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    padding: 35px 30px;
+    text-align: center;
+}
+
+.delete-icon {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    animation: pulse 2s infinite;
+}
+
+    .delete-icon i {
+        font-size: 36px;
+        color: white;
+    }
+
+@@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+.delete-header h2 {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.delete-header p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Body */
+.delete-body {
+    padding: 30px;
+}
+
+/* Category info card */
+.category-info {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+}
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border-radius: 16px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+}
+
+    .category-badge i {
+        font-size: 26px;
+        color: white;
+    }
+
+.category-label {
+    color: #64748b;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.category-name {
+    color: #f1f5f9;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+    .category-name i {
+        color: #fbbf24;
+        font-size: 20px;
+    }
+
+/* ID Badge */
+.id-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+    .id-badge i {
+        font-size: 12px;
+    }
+
+/* Warning box */
+.warning-box {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.05));
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 25px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+    .warning-box i {
+        color: #fbbf24;
+        font-size: 22px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+.warning-content h4 {
+    color: #fbbf24;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 5px;
+}
+
+.warning-content p {
+    color: #94a3b8;
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Footer buttons */
+.delete-footer {
+    padding: 0 30px 30px;
+    display: flex;
+    gap: 12px;
+}
+
+.btn-back {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: #334155;
+    color: #e2e8f0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+    .btn-back:hover {
+        background-color: #475569;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+
+.btn-delete {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+    }
+
+/* Responsive */
+

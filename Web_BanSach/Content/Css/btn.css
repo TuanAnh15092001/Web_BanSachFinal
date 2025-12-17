@@ -1,0 +1,43 @@
+﻿/* Button chung */
+.btn-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Nút Đăng nhập */
+.btn-login-primary {
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
+    color: white;
+    border: none;
+}
+
+    .btn-login-primary:hover {
+        background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+/* Nút Đăng ký */
+.btn-register {
+    background: transparent;
+    color: #38bdf8;
+    border: 2px solid #49ff00;
+}
+
+    .btn-register:hover {
+        background: #38bdf8;
+        color: #0f172a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        text-decoration: none;
+    }

@@ -1,95 +1,389 @@
 ﻿@model IEnumerable<Web_BanSach.KHACHHANG>
 
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/AdminLayoutPage1.cshtml";
+    ViewBag.Title = "Quản lý Khách hàng";
 }
 
 <style>
-    table {
-        background-color: #0f172a !important;
-        color: white !important;
+    /* Container chính */
+    .customer-container {
+        padding: 24px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        width: 100%;
+    }
+
+    /* Header */
+    .page-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid #334155;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #f1f5f9;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .page-title i {
+            color: #38bdf8;
+            font-size: 32px;
+        }
+
+    /* Table Container */
+    .table-container {
+        background: #1e293b;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        border: 1px solid #334155;
+        width: 100%;
+    }
+
+    /* Table Styles */
+    .customer-table {
         width: 100%;
         border-collapse: collapse;
+        table-layout: fixed;
     }
 
-    th, td {
-        background-color: #0f172a !important;
-        color: #38bdf8 !important;
-        border-bottom: 1px solid #334155;
-        border-color: #334155 !important;
-        padding: 8px;
+        .customer-table thead {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .customer-table th {
+            padding: 18px 24px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #38bdf8;
+            border-bottom: 2px solid #334155;
+        }
+
+            .customer-table th i {
+                margin-right: 8px;
+                opacity: 0.8;
+            }
+
+        .customer-table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #334155;
+        }
+
+            .customer-table tbody tr:hover {
+                background: rgba(56, 189, 248, 0.08);
+            }
+
+            .customer-table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+        .customer-table td {
+            padding: 18px 24px;
+            color: #e2e8f0;
+            font-size: 14px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+    /* Customer Name */
+    .customer-name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
     }
 
-    th {
-        background-color: #0f172a !important;
-        color: red !important;
+    .name-text {
         font-weight: 600;
+        color: #f1f5f9;
+    }
+
+    /* Password Field */
+    .password-field {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .password-text {
+        font-family: 'Courier New', monospace;
+        background: #0f172a;
+        padding: 8px 14px;
+        border-radius: 6px;
+        min-width: 100px;
+        color: #94a3b8;
+        font-size: 13px;
+        display: inline-block;
+    }
+
+    .toggle-pwd-btn {
+        background: transparent;
+        border: none;
+        color: #38bdf8;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+        .toggle-pwd-btn:hover {
+            background: rgba(56, 189, 248, 0.15);
+            transform: scale(1.1);
+        }
+
+    /* Contact Info */
+    .phone-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #fbbf24;
+    }
+
+        .phone-badge i {
+            font-size: 14px;
+        }
+
+    .email-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #fb7185;
+        word-break: break-all;
+    }
+
+        .email-badge i {
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+    .address-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: #a78bfa;
+    }
+
+        .address-badge i {
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+    .address-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 250px;
+        display: inline-block;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #64748b;
+    }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 16px;
+            color: #334155;
+        }
+
+        .empty-state p {
+            font-size: 18px;
+        }
+
+    /* Tooltip */
+    .tooltip-custom {
+        position: relative;
+    }
+
+        .tooltip-custom:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 100;
+            border: 1px solid #334155;
+        }
+
+    /* Row Animation */
+    .customer-table tbody tr {
+        animation: fadeIn 0.5s ease forwards;
+        opacity: 0;
+    }
+
+    @@keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    .customer-table tbody tr:nth-child(1) {
+        animation-delay: 0.05s;
+    }
+
+    .customer-table tbody tr:nth-child(2) {
+        animation-delay: 0.1s;
+    }
+
+    .customer-table tbody tr:nth-child(3) {
+        animation-delay: 0.15s;
+    }
+
+    .customer-table tbody tr:nth-child(4) {
+        animation-delay: 0.2s;
+    }
+
+    .customer-table tbody tr:nth-child(5) {
+        animation-delay: 0.25s;
+    }
+
+    .customer-table tbody tr:nth-child(6) {
+        animation-delay: 0.3s;
+    }
+
+    .customer-table tbody tr:nth-child(7) {
+        animation-delay: 0.35s;
+    }
+
+    .customer-table tbody tr:nth-child(8) {
+        animation-delay: 0.4s;
+    }
+
+    .customer-table tbody tr:nth-child(9) {
+        animation-delay: 0.45s;
+    }
+
+    .customer-table tbody tr:nth-child(10) {
+        animation-delay: 0.5s;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .customer-table {
+            display: block;
+            overflow-x: auto;
+        }
+
+        .customer-container {
+            padding: 12px;
+        }
     }
 </style>
 
-<table class="table">
-    <tr>
-        <th>
-            Mã khách hàng
-        </th>
-        <th>
-            Tên khách hàng
-        </th>
-        <th>
-            Mật khẩu
-        </th>
-        <th>
-            Số điện thoại
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Địa chỉ
-        </th>
-        <th></th>
-    </tr>
+<div class="customer-container">
+    <!-- Header -->
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fa-solid fa-users"></i>
+            Quản lý Khách hàng
+        </h1>
+    </div>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MAKHACHHANG)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TENKHACHHANG)
-            </td>
-            <td>
-                <span id="pwd_@item.MAKHACHHANG">******</span>
-                <i class="fa-solid fa-eye" style="cursor:pointer;color:#38bdf8"
-                   onclick="togglePwd('@item.MAKHACHHANG','@item.MATKHAU')"></i>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SDT)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EMAIL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DIACHI)
-            </td>
-            <td>
-            </td>
-        </tr>
-    }
-
-</table>
+    <!-- Table -->
+    <div class="table-container">
+        <table class="customer-table" id="customerTable">
+            <thead>
+                <tr>
+                    <th><i class="fa-solid fa-user"></i>Tên khách hàng</th>
+                    <th><i class="fa-solid fa-lock"></i>Mật khẩu</th>
+                    <th><i class="fa-solid fa-phone"></i>Số điện thoại</th>
+                    <th><i class="fa-solid fa-envelope"></i>Email</th>
+                    <th><i class="fa-solid fa-location-dot"></i>Địa chỉ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="customer-name">
+                                    <span class="name-text">@item.TENKHACHHANG</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="password-field">
+                                    <span class="password-text" id="pwd_@item.MAKHACHHANG">••••••••</span>
+                                    <button type="button" class="toggle-pwd-btn tooltip-custom"
+                                            data-tooltip="Hiện/Ẩn mật khẩu"
+                                            onclick="togglePwd('@item.MAKHACHHANG','@item.MATKHAU')">
+                                        <i class="fa-solid fa-eye" id="icon_@item.MAKHACHHANG"></i>
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="phone-badge">
+                                    <i class="fa-solid fa-phone"></i>
+                                    @(item.SDT ?? "Chưa cập nhật")
+                                </div>
+                            </td>
+                            <td>
+                                <div class="email-badge">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    @(item.EMAIL ?? "Chưa cập nhật")
+                                </div>
+                            </td>
+                            <td>
+                                <div class="address-badge tooltip-custom" data-tooltip="@item.DIACHI">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span class="address-text">@(item.DIACHI ?? "Chưa cập nhật")</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-users-slash"></i>
+                                <p>Chưa có khách hàng nào</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
     function togglePwd(id, realPwd) {
         var span = document.getElementById("pwd_" + id);
+        var icon = document.getElementById("icon_" + id);
 
-        if (span.innerText === "******") {
+        if (span.innerText === "••••••••") {
             span.innerText = realPwd;
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
         } else {
-            span.innerText = "******";
+            span.innerText = "••••••••";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
         }
     }
 </script>
-

@@ -1,141 +1,315 @@
 ﻿@model IEnumerable<Web_BanSach.BANGSACH>
 
 @{
-    ViewBag.Title = "Index";
-}
-<style>
-    table {
-        background-color: #0f172a !important;
-        color: white !important;
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        background-color: #0f172a !important;
-        color: #38bdf8 !important;
-        border-bottom: 1px solid #334155;
-        border-color: #334155 !important;
-        padding: 8px;
-    }
-
-    th {
-        background-color: #0f172a !important;
-        color: red !important;
-        font-weight: 600;
-    }
-
-    /* Button thêm sách */
-    .btn-add {
-        display: inline-block;
-        background-color: #4ade80; /* xanh lá nhạt */
-        color: #0f172a;
-        padding: 5px 18px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: 0.25s;
-        margin-bottom: 15px;
-    }
-
-        .btn-add:hover {
-            background-color: #16a34a; /* xanh lá đậu */
-            color: white;
-        }
-
-    img {
-        border-radius: 6px;
-        object-fit: cover;
-    }
-
-    .fa-pen-to-square {
-        color: #38bdf8;
-    }
-
-    .fa-trash {
-        color: red;
-    }
-
-        .fa-pen-to-square:hover, .fa-trash:hover {
-            opacity: 0.7;
-        }
-
-</style>
-
-
-<section>
-    <a href="@Url.Action("ThemSach",new { area = "Admin" })" class="btn-add">📚Thêm Sách</a>
-
-
-    <table class="table">
-        <tr>
-            <th>
-                Mã Sách
-            </th>
-            <th>
-                Tên Sách
-            </th>
-            <th>
-                Giá bán
-            </th>
-            <th>
-                Nội Dung
-            </th>
-            <th>
-                Ảnh bìa
-            </th>
-            <th>
-                Năm xuất bản
-            </th>
-            <th>
-                Mã Loại
-            </th>
-            <th>
-                Mã NXB
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
+    ViewBag.Title = "Quản lý Sách";
+    <link href="~/Areas/Css/IndexSach.css" rel="stylesheet" />
+    // Lấy tham số page từ URL
+    int currentPage = 1;
+    if (Request.QueryString["page"] != null)
+    {
+        int.TryParse(Request.QueryString["page"], out currentPage);
+        if (currentPage < 1)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MASACH)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TENSACH)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GIABAN)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NOIDUNG)
-                </td>
-                <td>
-                    <img src="~/Content/HinhAnh/@item.ANHBIA" style="height:50px;width:50px" alt="#" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NAMXUATBAN)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MALOAI)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MANXB)
-                </td>
-                <td>
-                    @*@Html.ActionLink("Sửa", "ViewEdit", new { id = item.MASACH }) |
-                    @Html.ActionLink("Xóa", "ViewDelete", new { id = item.MASACH })*@
-                    <a href="@Url.Action("ViewEdit", new { id = item.MASACH })" title="Sửa">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                   |
-                    <a href="@Url.Action("ViewDelete", new { id = item.MASACH })" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa?');">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
+            currentPage = 1;
         }
+    }
 
-    </table>
-</section>
+    int pageSize = 8;
+    int totalItems = Model.Count();
+    int totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+    // Đảm bảo currentPage không vượt quá totalPages
+    if (currentPage > totalPages && totalPages > 0)
+    {
+        currentPage = totalPages;
+    }
+
+    // Lấy sách cho trang hiện tại
+    var pagedBooks = Model.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+    int stt = (currentPage - 1) * pageSize;
+}
+
+
+
+<div class="admin-container">
+    <!-- Header -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                <i class="fa-solid fa-book-open"></i>
+                Quản lý Sách
+            </h1>
+            <p class="subtitle">Quản lý tất cả sách trong hệ thống</p>
+        </div>
+        <a href="@Url.Action("ThemSach", new { area = "Admin" })" class="btn-add">
+            <i class="fa-solid fa-plus"></i>
+            Thêm Sách Mới
+        </a>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-row">
+        <div class="stat-card books">
+            <div class="stat-icon">
+                <i class="fa-solid fa-book"></i>
+            </div>
+            <div class="stat-number">@totalItems</div>
+            <div class="stat-label">Tổng số sách</div>
+        </div>
+        <div class="stat-card books">
+            <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                <i class="fa-solid fa-file-lines"></i>
+            </div>
+            <div class="stat-number">@currentPage / @totalPages</div>
+            <div class="stat-label">Trang hiện tại</div>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+        <div class="table-header">
+            <h3><i class="fa-solid fa-list"></i> Danh sách sách</h3>
+        </div>
+        <div class="pagination-container">
+            <div class="pagination-info">
+            </div>
+            <div class="pagination-buttons">
+                <!-- Nút Previous -->
+                @if (currentPage > 1)
+                {
+                    <a href="?page=@(currentPage - 1)" class="page-btn">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                }
+                else
+                {
+                    <span class="page-btn disabled">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </span>
+                }
+
+                <!-- Số trang -->
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    if (i == currentPage)
+                    {
+                        <span class="page-btn active">@i</span>
+                    }
+                    else if (i == 1 || i == totalPages || (i >= currentPage - 1 && i <= currentPage + 1))
+                    {
+                        <a href="?page=@i" class="page-btn">@i</a>
+                    }
+                    else if (i == currentPage - 2 || i == currentPage + 2)
+                    {
+                        <span class="page-dots">...</span>
+                    }
+                }
+
+                <!-- Nút Next -->
+                @if (currentPage < totalPages)
+                {
+                    <a href="?page=@(currentPage + 1)" class="page-btn">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                }
+                else
+                {
+                    <span class="page-btn disabled">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </span>
+                }
+            </div>
+        </div>
+
+        @if (pagedBooks.Any())
+        {
+            <div class="table-wrapper">
+                <table class="data-table" id="booksTable">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Thông tin sách</th>
+                            <th>Giá bán</th>
+                            <th>Nội dung</th>
+                            <th>Năm XB</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in pagedBooks)
+                        {
+                            stt++;
+                            <tr>
+                                <td>
+                                    <span class="stt-badge">@stt</span>
+                                </td>
+                                <td>
+                                    <div class="book-info">
+                                        <img src="~/Content/HinhAnh/@item.ANHBIA"
+                                             class="book-image"
+                                             alt="@item.TENSACH"
+                                             onerror="this.src='https://via.placeholder.com/60x80?text=No'" />
+                                        <div class="book-name" title="@item.TENSACH">@item.TENSACH</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="price">
+                                        @String.Format("{0:N0}", item.GIABAN)đ
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="content-preview">
+                                        @(item.NOIDUNG?.Length > 80 ? item.NOIDUNG.Substring(0, 80) + "..." : item.NOIDUNG)
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="year-badge">@item.NAMXUATBAN</span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="@Url.Action("ViewEdit", new { id = item.MASACH })"
+                                           class="btn-action btn-edit"
+                                           data-tooltip="Sửa">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                        <button type="button"
+                                                class="btn-action btn-delete"
+                                                data-tooltip="Xóa"
+                                                onclick="showDeletePopup('@item.MASACH', '@item.TENSACH')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Hiển thị <strong>@((currentPage - 1) * pageSize + 1)</strong> -
+                    <strong>@(Math.Min(currentPage * pageSize, totalItems))</strong>
+                    trong tổng số <strong>@totalItems</strong> sách
+                </div>
+                <div class="pagination-buttons">
+                    <!-- Nút Previous -->
+                    @if (currentPage > 1)
+                    {
+                        <a href="?page=@(currentPage - 1)" class="page-btn">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="page-btn disabled">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </span>
+                    }
+
+                    <!-- Số trang -->
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        if (i == currentPage)
+                        {
+                            <span class="page-btn active">@i</span>
+                        }
+                        else if (i == 1 || i == totalPages || (i >= currentPage - 1 && i <= currentPage + 1))
+                        {
+                            <a href="?page=@i" class="page-btn">@i</a>
+                        }
+                        else if (i == currentPage - 2 || i == currentPage + 2)
+                        {
+                            <span class="page-dots">...</span>
+                        }
+                    }
+
+                    <!-- Nút Next -->
+                    @if (currentPage < totalPages)
+                    {
+                        <a href="?page=@(currentPage + 1)" class="page-btn">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="page-btn disabled">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </span>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <i class="fa-solid fa-book-open"></i>
+                <h4>Chưa có sách nào</h4>
+                <p>Hãy thêm sách mới để bắt đầu quản lý</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- DELETE POPUP MODAL -->
+<div class="popup-overlay" id="deletePopup">
+    <div class="popup-box">
+        <div class="popup-icon">
+            <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <h3 class="popup-title">Bạn có chắc chắn muốn đi tới xóa sách này không?</h3>
+        <p class="popup-message">
+
+            <span class="popup-book-name" id="popupBookName"></span>
+        </p>
+        <div class="popup-buttons">
+            <button class="popup-btn popup-btn-cancel" onclick="closeDeletePopup()">
+                <i class="fa-solid fa-xmark"></i>
+                Hủy bỏ
+            </button>
+            <button class="popup-btn popup-btn-delete" id="confirmDeleteBtn">
+                <i class="fa-solid fa-trash"></i>
+                Đi tới
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    var deleteUrl = '';
+
+    function showDeletePopup(id, bookName) {
+        deleteUrl = '@Url.Action("ViewDelete")' + '?id=' + id;
+    document.getElementById('popupBookName').textContent = '"' + bookName + '"';
+    document.getElementById('deletePopup').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    }
+
+    function closeDeletePopup() {
+        document.getElementById('deletePopup').classList.remove('active');
+    document.body.style.overflow = 'auto';
+    deleteUrl = '';
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+        if (deleteUrl) {
+        this.classList.add('loading');
+    this.innerHTML = '<i class="fa-solid fa-spinner"></i> Đang xóa...';
+    window.location.href = deleteUrl;
+        }
+    });
+
+    document.getElementById('deletePopup').addEventListener('click', function (e) {
+        if (e.target === this) {
+        closeDeletePopup();
+        }
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+        closeDeletePopup();
+        }
+    });
+
+</script>

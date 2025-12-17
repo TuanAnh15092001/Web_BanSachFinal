@@ -1,107 +1,293 @@
 ﻿@model Web_BanSach.Models.Saches
 
 @{
-    ViewBag.Title = "ThemSach";
+    ViewBag.Title = "Thêm Sách Mới";
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="~/Areas/Css/ThemSach.css" rel="stylesheet" />
 }
 
-@using (Html.BeginForm("XuLySach", "SachEdit", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+@using (Html.BeginForm("XuLySach", "SachEdit", FormMethod.Post, new { enctype = "multipart/form-data", id = "formThemSach" }))
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal mauchu padding">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<div class="form-group padding">
-    Tên sách
-    <div class="col-md-10">
-        @Html.EditorFor(model => model.TENSACH, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.TENSACH, "", new { @class = "text-danger" })
-    </div>
-</div>
-
-    <div class="form-group padding">
-        Giá bán
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.GIABAN, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.GIABAN, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group padding">
-        Nội dung
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NOIDUNG, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NOIDUNG, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group padding">
-        Ảnh bìa
-            <div class="col-md-10">
-                <input type="file" name="AnhBiaUpload" accept="Image/*" />
+    <div class="form-container">
+        <!-- Header -->
+        <div class="form-header">
+            <div class="header-icon">
+                <i class="fas fa-book-medical"></i>
+            </div>
+            <div class="header-text">
+                <h2>📚 Thêm Sách Mới</h2>
+                <p>Điền thông tin sách vào form bên dưới</p>
             </div>
         </div>
 
-    <div class="form-group padding">
-        Năm xuất bản
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NAMXUATBAN, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NAMXUATBAN, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
-    <div class="form-group padding">
-        Loại sách
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.MALOAI, (SelectList)ViewBag.SelectLoai, "Xin mời nhập loại", new { @class = "form-select", required = "required" })
-            @Html.ValidationMessageFor(m => m.MALOAI, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        <!-- Toast Warning Container -->
+        <div id="toast-container"></div>
 
-    <div class="form-group padding">
-        Nhà xuất bản
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.MANXB, (SelectList)ViewBag.SelectNXB, "Xin mời nhập loại", new { @class = "form-select", required = "required" })
-            @Html.ValidationMessageFor(m => m.MANXB, "", new { @class = "text-danger" })
+        <div class="form-body">
+            <!-- Row 1: Tên sách -->
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-heading"></i> Tên sách <span class="required">*</span>
+                </label>
+                @Html.EditorFor(model => model.TENSACH, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên sách...", id = "TENSACH" } })
+                @Html.ValidationMessageFor(model => model.TENSACH, "", new { @class = "error-message" })
+                <div class="warning-message" id="warning-tensach">
+                    <i class="fas fa-exclamation-triangle"></i> Vui lòng nhập tên sách!
+                </div>
+            </div>
+
+            <!-- Row 2: Giá bán, Năm XB, Loại sách, NXB - 4 cột -->
+            <div class="form-row form-row-4">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-tag"></i> Giá bán (VNĐ)
+                    </label>
+                    @Html.EditorFor(model => model.GIABAN, new { htmlAttributes = new { @class = "form-control", placeholder = "VD: 150000" } })
+                    @Html.ValidationMessageFor(model => model.GIABAN, "", new { @class = "error-message" })
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-calendar-alt"></i> Năm xuất bản
+                    </label>
+                    @Html.EditorFor(model => model.NAMXUATBAN, new { htmlAttributes = new { @class = "form-control", placeholder = "VD: 2024" } })
+                    @Html.ValidationMessageFor(model => model.NAMXUATBAN, "", new { @class = "error-message" })
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-layer-group"></i> Loại sách
+                    </label>
+                    @Html.DropDownListFor(m => m.MALOAI, (SelectList)ViewBag.SelectLoai, "-- Chọn loại sách --", new { @class = "form-control form-select", required = "required" })
+                    @Html.ValidationMessageFor(m => m.MALOAI, "", new { @class = "error-message" })
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-building"></i> Nhà xuất bản
+                    </label>
+                    @Html.DropDownListFor(m => m.MANXB, (SelectList)ViewBag.SelectNXB, "-- Chọn NXB --", new { @class = "form-control form-select", required = "required" })
+                    @Html.ValidationMessageFor(m => m.MANXB, "", new { @class = "error-message" })
+                </div>
+            </div>
+
+            <!-- Row 3: Ảnh bìa & Nội dung - 2 cột -->
+            <div class="form-row form-row-2">
+                <!-- Ảnh bìa -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-image"></i> Ảnh bìa sách <span class="required">*</span>
+                    </label>
+                    <div class="file-upload-wrapper" id="file-upload-wrapper">
+                        <input type="file" name="AnhBiaUpload" id="AnhBiaUpload" accept="image/*" class="file-input" />
+                        <label for="AnhBiaUpload" class="file-label" id="file-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Kéo thả hoặc click để chọn ảnh</span>
+                            <small>PNG, JPG, JPEG (Tối đa 5MB)</small>
+                        </label>
+                        <div id="preview-container" class="preview-container">
+                            <img id="image-preview" src="#" alt="Preview" />
+                            <button type="button" id="remove-image" class="remove-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="warning-message" id="warning-anhbia">
+                        <i class="fas fa-exclamation-triangle"></i> Vui lòng chọn ảnh bìa sách!
+                    </div>
+                </div>
+
+                <!-- Nội dung -->
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-align-left"></i> Mô tả / Nội dung <span class="required">*</span>
+                    </label>
+                    @Html.TextAreaFor(model => model.NOIDUNG, new { @class = "form-control textarea", rows = 8, placeholder = "Nhập mô tả nội dung sách...", id = "NOIDUNG" })
+                    @Html.ValidationMessageFor(model => model.NOIDUNG, "", new { @class = "error-message" })
+                    <div class="warning-message" id="warning-noidung">
+                        <i class="fas fa-exclamation-triangle"></i> Vui lòng nhập nội dung mô tả!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="form-actions">
+                @Html.ActionLink("← Quay lại", "Index", null, new { @class = "btn btn-back" })
+                <div class="action-right">
+                    <button type="button" class="btn btn-reset" onclick="resetForm()">
+                        <i class="fas fa-redo"></i> Làm mới
+                    </button>
+                    <button type="submit" class="btn btn-save" id="btnSave">
+                        <i class="fas fa-save"></i> Lưu sách
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group padding">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn-save" />
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    </div>
-</div>
 }
 
+<script>
+    // Biến lưu trạng thái đã chọn ảnh chưa
+    let imageSelected = false;
 
-<style>
+    // ===== IMAGE PREVIEW =====
+    document.getElementById('AnhBiaUpload').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('image-preview');
+        const container = document.getElementById('preview-container');
+        const wrapper = document.getElementById('file-upload-wrapper');
+        const warning = document.getElementById('warning-anhbia');
 
-    .btn-save {
-        display: inline-block;
-        background-color: #4ade80; /* xanh lá nhạt */
-        color: #0f172a;
-        padding: 10px 18px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: 0.25s;
-        margin-bottom: 15px;
-        margin-top: 15px;
-        margin-right: 15px;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                container.classList.add('active');
+                imageSelected = true;
+
+                // Xóa trạng thái lỗi
+                wrapper.classList.remove('input-error');
+                warning.classList.remove('show');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // ===== REMOVE IMAGE =====
+    document.getElementById('remove-image').addEventListener('click', function () {
+        document.getElementById('AnhBiaUpload').value = '';
+        document.getElementById('preview-container').classList.remove('active');
+        imageSelected = false;
+    });
+
+    // ===== SHOW TOAST =====
+    function showToast(title, message, type = 'warning') {
+        const container = document.getElementById('toast-container');
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+
+        let icon = 'fa-exclamation-circle';
+        if (type === 'error') icon = 'fa-times-circle';
+        if (type === 'success') icon = 'fa-check-circle';
+
+        toast.innerHTML = `
+            <i class="fas ${icon} toast-icon"></i>
+            <div class="toast-content">
+                <div class="toast-title">${title}</div>
+                <div class="toast-message">${message}</div>
+            </div>
+            <button class="toast-close" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        container.appendChild(toast);
+
+        // Tự động xóa sau 4 giây
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.remove();
+            }
+        }, 4000);
     }
 
-        .btn-save:hover {
-            background-color: #16a34a; /* xanh lá đậu */
-            color: white;
+    // ===== CLEAR WARNINGS =====
+    function clearWarnings() {
+        document.querySelectorAll('.warning-message').forEach(el => {
+            el.classList.remove('show');
+        });
+        document.querySelectorAll('.input-error').forEach(el => {
+            el.classList.remove('input-error');
+        });
+    }
+
+    // ===== VALIDATE FORM =====
+    function validateForm() {
+        let isValid = true;
+        let errors = [];
+
+        clearWarnings();
+
+        // Kiểm tra Tên sách
+        const tenSach = document.getElementById('TENSACH');
+        if (!tenSach.value.trim()) {
+            isValid = false;
+            errors.push('Tên sách');
+            tenSach.classList.add('input-error');
+            document.getElementById('warning-tensach').classList.add('show');
+            tenSach.focus();
         }
 
-    .mauchu {
-        color: white;
+        // Kiểm tra Nội dung
+        const noiDung = document.getElementById('NOIDUNG');
+        if (!noiDung.value.trim()) {
+            isValid = false;
+            errors.push('Nội dung mô tả');
+            noiDung.classList.add('input-error');
+            document.getElementById('warning-noidung').classList.add('show');
+            if (isValid) noiDung.focus();
+        }
+
+        // Kiểm tra Ảnh bìa
+        const anhBia = document.getElementById('AnhBiaUpload');
+        if (!anhBia.files || anhBia.files.length === 0) {
+            isValid = false;
+            errors.push('Ảnh bìa');
+            document.getElementById('file-upload-wrapper').classList.add('input-error');
+            document.getElementById('warning-anhbia').classList.add('show');
+        }
+
+        // Hiển thị Toast nếu có lỗi
+        if (!isValid) {
+            showToast(
+                '⚠️ Thiếu thông tin bắt buộc!',
+                `Vui lòng nhập: ${errors.join(', ')}`,
+                'warning'
+            );
+        }
+
+        return isValid;
     }
 
-    .padding{
-        padding: 4px 4px 4px 4px;
+    // ===== FORM SUBMIT =====
+    document.getElementById('formThemSach').addEventListener('submit', function (e) {
+        if (!validateForm()) {
+            e.preventDefault();
+            return false;
+        }
+
+        // Hiển thị loading (optional)
+        document.getElementById('btnSave').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+        document.getElementById('btnSave').disabled = true;
+    });
+
+    // ===== REAL-TIME VALIDATION =====
+    document.getElementById('TENSACH').addEventListener('input', function () {
+        if (this.value.trim()) {
+            this.classList.remove('input-error');
+            document.getElementById('warning-tensach').classList.remove('show');
+        }
+    });
+
+    document.getElementById('NOIDUNG').addEventListener('input', function () {
+        if (this.value.trim()) {
+            this.classList.remove('input-error');
+            document.getElementById('warning-noidung').classList.remove('show');
+        }
+    });
+
+    // ===== RESET FORM =====
+    function resetForm() {
+        document.getElementById('formThemSach').reset();
+        document.getElementById('preview-container').classList.remove('active');
+        imageSelected = false;
+        clearWarnings();
+
+        showToast('🔄 Đã làm mới!', 'Form đã được reset về trạng thái ban đầu', 'success');
     }
-</style>
+</script>

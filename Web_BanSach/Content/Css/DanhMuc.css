@@ -1,12 +1,12 @@
 ﻿.filter-panel {
     width: 280px;
-    background-color: #0f172a;
+    background-color: transparent;
     color: #e2e8f0;
     padding: 20px;
     border-radius: 10px;
     font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
 }
-
     .filter-panel h3 {
         font-size: 18px;
         font-weight: 600;
@@ -67,12 +67,3 @@
 }
 
 /* Giữ filter cố định bên trái, không chiếm quá nhiều */
-.filter-panel {
-    width: 260px;
-    background-color: #0f172a;
-    padding: 20px;
-    border-radius: 10px;
-    color: #e2e8f0;
-    flex-shrink: 0;
-}
-

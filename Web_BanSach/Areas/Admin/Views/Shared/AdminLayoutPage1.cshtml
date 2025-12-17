@@ -16,108 +16,230 @@
     <header class="bg-background\/75 backdrop-blur border-b border-gray-200 dark\:border-gray-800 -mb-px sticky top-0 z-50">
         <div class="flex items-center justify-between gap-3 h-[--header-height] mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             @*logo*@
-            <div class="lg\:flex-1 flex items-center gap-1\.5 register-container">
-                <a aria-current="page" href="@Url.Action("Index", "Sach", new {area ="Admin"})" class="router-link-active router-link-exact-active flex items-end gap-2 font-bold text-xl text-gray-900 dark:text-white" aria-label="Nuxt UI">
-                    <h1 class="flex items-center gap-2 w-auto h-auto" title="Thư viện sách online miễn phí">
-                        <span class="text-base lg:text-lg font-bold">Story<span style="color:#00ff21">Book</span></span>
-                    </h1>
+            <div class="brand-container">
+                <a href="@Url.Action("Index", "Sach", new {area ="Admin"})" class="brand-link" title="Thư viện sách online miễn phí">
+                    <span class="brand-icon">📚</span>
+                    <span class="brand-text">
+                        <span style="color:white">Story</span> <span class="brand-highlight">Book</span>
+                    </span>
                 </a>
-
             </div>
-            @*Menu*@
-        <ul class=" flex items-center gap-x-8 lg:flex">
-            <li class="relative">
-                <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item" href="@Url.Action("Index", "Sach", new {area ="Admin"})" as="button" type="button" exact="false" exactquery="false" exacthash="false">
-                    <!--[-->
-                    Trang chủ
-                    <!--[-->
-                </a>
-
-            </li>
-            <li class="relative">
-                <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item" href="@Url.Action("Index","LienHe",new {area ="Admin"})" as="button" type="button" exact="false" exactquery="false" exacthash="false">
-                    <!--[-->
-                    Liên Hệ
-                    <!--[-->
-                </a>
-
-            </li>
-            <li class="relative">
-                <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item" href="@Url.Action("Index","ThongKe",new {area ="Admin"})" as="button" type="button" exact="false" exactquery="false" exacthash="false">
-                    <!--[-->
-                    Thống kê
-                    <!--[-->
-                </a>
-
-            </li>
-            <li class="dropdown">
-                <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item " href="#" as="button" type="button" exact="false" exactquery="false" exacthash="false">
-                    <!--[-->
-                    ADMIN
-                    <!--[-->
-                </a>
-
-                <ul class="dropdown-menu ">
-                    <li><a href="@Url.Action("Index","SachEdit","Admin")">Sách</a></li>
-                    <li><a href="@Url.Action("Index","LoaiSach","Admin")">Thể loại</a></li>
-                    <li><a href="@Url.Action("Index","NhaXuatBan","Admin")">Nhà xuất bản</a></li>
-                    <li><a href="@Url.Action("Index","KhachHang","Admin")">Khách hàng</a></li>
-                </ul>
-            </li>
 
             <style>
-                /* item cha */
-                .dropdown {
-                    position: relative;
-                    list-style: none;
+                .brand-container {
+                    display: flex;
+                    align-items: center;
                 }
 
-                /* menu con */
-                .dropdown-menu {
-                    position: absolute;
-                    top: 100%;
-                    left: 0;
-                    background-color: #0f172a;
-                    padding: 8px 0;
-                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                    width: 160px;
-                    display: none; /* ẨN mặc định */
+                .brand-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    text-decoration: none;
+                    transition: transform 0.3s ease;
                 }
 
-                    .dropdown-menu li {
+                    .brand-link:hover {
+                        transform: scale(1.05);
+                    }
+
+                .brand-icon {
+                    font-size: 28px;
+                }
+
+                .brand-text {
+                    font-size: 24px;
+                    font-weight: 700;
+                    color: #1a1a2e;
+                    letter-spacing: -0.5px;
+                }
+
+                .brand-highlight {
+                    color: #00ff21;
+                    text-shadow: 0 0 10px rgba(0, 255, 33, 0.3);
+                }
+            </style>
+            @*Menu*@
+            <ul class=" flex items-center gap-x-8 lg:flex">
+                <li class="relative">
+                    <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item" href="@Url.Action("Index", "Sach", new {area ="Admin"})" as="button" type="button" exact="false" exactquery="false" exacthash="false">
+                        <!--[-->
+                        Trang chủ
+                        <!--[-->
+                    </a>
+
+                </li>
+                <li class="relative">
+                    <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item" href="@Url.Action("Index","LienHe",new {area ="Admin"})" as="button" type="button" exact="false" exactquery="false" exacthash="false">
+                        <!--[-->
+                        Liên hệ
+                        <!--[-->
+                    </a>
+
+                </li>
+                <li class="relative">
+                    <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item" href="@Url.Action("Index","ThongKe",new {area ="Admin"})" as="button" type="button" exact="false" exactquery="false" exacthash="false">
+                        <!--[-->
+                        Thống kê
+                        <!--[-->
+                    </a>
+
+                </li>
+                <li class="dropdown">
+                    <a class="text-sm\/6 font-semibold flex items-center gap-1 menu-item " href="#" as="button" type="button" exact="false" exactquery="false" exacthash="false">
+                        <!--[-->
+                        Quản lý
+                        <!--[-->
+                    </a>
+
+                    <ul class="dropdown-menu ">
+                        <li><a href="@Url.Action("Index","SachEdit","Admin")">Sách</a></li>
+                        <li><a href="@Url.Action("Index","LoaiSach","Admin")">Thể loại</a></li>
+                        <li><a href="@Url.Action("Index","NhaXuatBan","Admin")">Nhà xuất bản</a></li>
+                        <li><a href="@Url.Action("Index","KhachHang","Admin")">Khách hàng</a></li>
+                    </ul>
+                </li>
+
+                <style>
+                    /* item cha */
+                    .dropdown {
+                        position: relative;
                         list-style: none;
                     }
 
-                    .dropdown-menu a {
-                        display: block;
-                        padding: 8px 16px;
-                        color: white;
-                        text-decoration: none;
+                    /* menu con */
+                    .dropdown-menu {
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        background-color: #0f172a;
+                        padding: 8px 0;
+                        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                        width: 160px;
+                        display: none; /* ẨN mặc định */
                     }
 
-                        .dropdown-menu a:hover {
-                            background: #007bff;
+                        .dropdown-menu li {
+                            list-style: none;
                         }
 
-                /* Hover mở menu */
+                        .dropdown-menu a {
+                            display: block;
+                            padding: 8px 16px;
+                            color: white;
+                            text-decoration: none;
+                        }
+
+                            .dropdown-menu a:hover {
+                                background: #007bff;
+                            }
+
+                    /* Hover mở menu */
+                    .dropdown:hover .dropdown-menu {
+                        display: block;
+                    }
+                </style>
+
+            </ul>
+            <style>
+                /* Container chứa dropdown */
+                .dropdown {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                    /* Nút chính */
+                    .dropdown .btn {
+                        color: #36eb21;
+                        cursor: pointer;
+                        padding: 10px 15px;
+                        background: none;
+                        border: none;
+                    }
+
+                /* Menu dropdown - ẩn mặc định */
+                .dropdown-menu {
+                    display: none;
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    background-color: #0f172a;
+                    min-width: 180px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    border-radius: 8px;
+                    z-index: 1000;
+                    overflow: hidden;
+                }
+
+                /* Hiện menu khi hover */
                 .dropdown:hover .dropdown-menu {
                     display: block;
                 }
-            </style>
 
-        </ul>
+                /* Style cho các item trong menu */
+                .dropdown-menu a {
+                    display: block;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    color: #ffffff;
+                    transition: all 0.2s;
+                }
+
+                    .dropdown-menu a:hover {
+                        background-color: #f5f5f5;
+                        color: #0f172a;
+                    }
+
+                    /* Icon cho menu items */
+                    .dropdown-menu a i {
+                        margin-right: 10px;
+                        width: 16px;
+                    }
+
+                /* Đường kẻ phân cách */
+                .dropdown-menu .divider {
+                    height: 1px;
+                    background-color: #eee;
+                    margin: 5px 0;
+                }
+
+                /* Style riêng cho đăng xuất */
+                .dropdown-menu a.logout:hover {
+                    background-color: #fee;
+                    color: #dc3545;
+                }
+            </style>
             @*mennu đăng nhập*@
             <div class="flex items-center justify-end lg\:flex-1 gap-1\.5 ">
                 <div class=" lg:flex items-center gap-1\.5">
                     @if (Session["TEN"] != null)
                     {
-                        <span class="btn" style="color:#36eb21">Xin chào, @Session["TEN"]</span>
-                        <a style="color:aliceblue" href="@Url.Action("DangXuat", "Acount",new { area = "" })" class="btn-login">Đăng xuất</a>
+                        <div class="dropdown">
+                            <a class="btn">
+                                <i class="fa fa-user"></i> Xin chào, @Session["TEN"]
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="/User/Profile">
+                                    <i class="fa fa-eye"></i> Xem thông tin
+                                </a>
+                                <a href="/User/Edit">
+                                    <i class="fa fa-edit"></i> Sửa thông tin
+                                </a>
+                                <div class="divider"></div>
+                                <a href="@Url.Action("DangXuat", "Acount",new { area = "" })" class="logout">
+                                    <i class="fa fa-sign-out"></i> Đăng xuất
+                                </a>
+                            </div>
+                        </div>
                     }
                     else
                     {
-                        <a href="@Url.Action("Login","Acount")" style="background-color:darkblue" class="btn-login"> Đăng nhập</a>
-                        <a href="@Url.Action("Register","Acount")" class="btn-login">Đăng ký</a>
+                        <a href="@Url.Action("Login","Acount")" class="btn-login btn-login-primary">
+                            <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                        </a>
+                        <a href="@Url.Action("Register","Acount")" class="btn-login btn-register">
+                            <i class="fa-solid fa-user-plus"></i> Đăng ký
+                        </a>
                     }
                 </div>
             </div>
@@ -130,105 +252,111 @@
         </div>
     </Main>
     @*</footer>-->*@
-<footer class="text-center text-lg-start " style="background-color: #0f172a; color:white;">
-    <!-- Section: Social media -->
-    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-        <!-- Left -->
-        <div class="me-5 d-none d-lg-block">
-            <span>Kết nối với tôi nếu bạn cần:</span>
-        </div>
-        <!-- Left -->
-        <!-- Right -->
-        <div>
-            <a href="https://www.facebook.com/TuanAnh15092001/" class="me-4 text-reset">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://mail.google.com/mail/u/0/" class="me-4 text-reset">
-                <i class="fab fa-google"></i>
-            </a>
-            <a href="https://www.instagram.com/tunna_159/" class="me-4 text-reset">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/tu%E1%BA%A5n-anh-nguy%E1%BB%85n-683b71267/" class="me-4 text-reset">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/TuanAnh15092001" class="me-4 text-reset">
-                <i class="fab fa-github"></i>
-            </a>
-        </div>
-        <!-- Right -->
-    </section>
-    <!-- Section: Social media -->
-    <!-- Section: Links  -->
-    <section class="">
-        <div class="container text-center text-md-start mt-5">
-            <!-- Grid row -->
-            <div class="row mt-3">
-                <!-- Grid column -->
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                    <!-- Content -->
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        <i class=""></i>📚 Story <span style="color:#00ff21">Book</span>
-                    </h6>
-                    <p>
-                        Bài tập cuối môn Lập trình Web, Web bán sách đầy đủ chức năng, từ người dùng đến quản lý của nhóm 5
-                    </p>
-                </div>
-                <!-- Grid column -->
-                <!-- Grid column -->
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        Thành viên
-                    </h6>
-                    <p>
-                        <a href="#!" class="text-reset">Nguyễn Tuấn Anh</a>
-                    </p>
-                    <p>
-                        <a href="#!" class="text-reset">La Thuận Phát</a>
-                    </p>
-                </div>
-                <!-- Grid column -->
-                <!-- Grid column -->
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4">
-                        giáo viên hướng dẫn
-                    </h6>
-                    <p>
-                        <a href="#!" class="text-reset">Huỳnh Thị Cẩm Dung</a>
-                    </p>
-                    <p>
-                        <a href="https://www.youtube.com/channel/UCuMITT7oXJMM5t0tNMJUrXA" class="text-reset">Đinh Nguyễn Trọng Nghĩa</a>
-                    </p>
-                    <p>
-                        <a href="https://chatgpt.com/" class="text-reset">chatgpt</a>
-                    </p>
-                </div>
-                <!-- Grid column -->
-                <!-- Grid column -->
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                    <!-- Links -->
-                    <h6 class="text-uppercase fw-bold mb-4">liên hệ</h6>
-                    <p><i class="fas fa-home me-3"></i>HUIT</p>
-                    <p>
-                        <i class="fas fa-envelope me-3"></i>
-                        nguyentuan1592001@gmail.com
-                    </p>
-                    <p><i class="fas fa-phone me-3"></i> 0369829547</p>
-                </div>
-                <!-- Grid column -->
+    <footer class="text-center text-lg-start " style="background-color: #0f172a; color:white;">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>Kết nối với tôi nếu bạn cần:</span>
             </div>
-            <!-- Grid row -->
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="https://www.facebook.com/TuanAnh15092001/" class="me-4 text-reset">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://mail.google.com/mail/u/0/" class="me-4 text-reset">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="https://www.instagram.com/tunna_159/" class="me-4 text-reset">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/tu%E1%BA%A5n-anh-nguy%E1%BB%85n-683b71267/" class="me-4 text-reset">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="https://github.com/TuanAnh15092001" class="me-4 text-reset">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            📚<i style="color:white"> Story </i><span class="brand-highlight">Book</span>
+                        </h6>
+                        <p>
+                            Bài tập cuối môn Lập trình Web, Web bán sách đầy đủ chức năng, từ người dùng đến quản lý của nhóm 5
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Thành viên
+                        </h6>
+                        <p>
+                            <a href="#!" class="text-reset">Nguyễn Tuấn Anh</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">La Thuận Phát</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Nguyễn Hà Trọng Phúc</a>
+                        </p>
+                        <p>
+                            <a href="#!" class="text-reset">Đinh Tấn Huy</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            giáo viên hướng dẫn
+                        </h6>
+                        <p>
+                            <a href="#!" class="text-reset">Huỳnh Thị Cẩm Dung</a>
+                        </p>
+                        <p>
+                            <a href="https://www.youtube.com/channel/UCuMITT7oXJMM5t0tNMJUrXA" class="text-reset">Đinh Nguyễn Trọng Nghĩa</a>
+                        </p>
+                        <p>
+                            <a href="https://chatgpt.com/" class="text-reset">chatgpt</a>
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">liên hệ</h6>
+                        <p><i class="fas fa-home me-3"></i>HUIT</p>
+                        <p>
+                            <i class="fas fa-envelope me-3"></i>
+                            nguyentuan1592001@gmail.com
+                        </p>
+                        <p><i class="fas fa-phone me-3"></i> 0369829547</p>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2025 Copyright:
+            <a class="text-reset fw-bold" href="https://www.facebook.com/TuanAnh15092001">nguyentuan1592001@gmail.com</a>
         </div>
-    </section>
-    <!-- Section: Links  -->
-    <!-- Copyright -->
-    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2025 Copyright:
-        <a class="text-reset fw-bold" href="https://www.facebook.com/TuanAnh15092001">nguyentuan1592001@gmail.com</a>
-    </div>
-    <!-- Copyright -->
-</footer>
+        <!-- Copyright -->
+    </footer>
 </body>
 </html>
