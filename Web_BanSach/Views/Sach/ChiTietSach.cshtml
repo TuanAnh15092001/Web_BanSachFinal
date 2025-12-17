@@ -1,117 +1,130 @@
 ﻿@model BANGSACH
 @{
-    ViewBag.Title = "ChiTietSach";
+    ViewBag.Title = "Chi tiết sách";
     Layout = "~/Views/Shared/_LayoutSach.cshtml";
+    <link href="~/Content/Css/SCTS1.css" rel="stylesheet" />
     var lienquan = (List<BANGSACH>)ViewBag.LQ;
     var nxb = (List<BANGSACH>)ViewBag.NXB;
-    <link href="~/Content/Css/chitietsach.css" rel="stylesheet" />
 }
 
-<section class="products">
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Hình ảnh sản phẩm -->
-            <div class="col-md-5">
-                <div class="card shadow-sm border-0">
-                    <img src="~/Content/HinhAnh/@Model.ANHBIA" alt="@Model.TENSACH">
+<section class="product-detail-section">
+    <div class="detail-container">
+
+        <!-- Product Detail Card -->
+        <div class="product-detail-card fade-up">
+            <!-- Image Section -->
+            <div class="product-image-section">
+                <div class="image-wrapper">
+                    <img src="~/Content/HinhAnh/@Model.ANHBIA" alt="@Model.TENSACH" />
                 </div>
             </div>
 
-            <!-- Thông tin sản phẩm -->
-            <div class="col-md-7">
-                <h2 class="mb-3 text-primary">@Model.TENSACH</h2>
-                <h4 class="text-warning fw-bold">@String.Format("{0:#,##0}", @Model.GIABAN) VNĐ</h4>
+            <!-- Info Section -->
+            <div class="product-info-section slide-in">
+                <div class="price-section">
+                    <div>
+                        <span class="current-price">@String.Format("{0:#,##0}", Model.GIABAN) VNĐ</span>
+                        @*<span class="original-price">@String.Format("{0:#,##0}", Model.GIABAN * 1.15m) VNĐ</span>*@
+                    </div>
+                </div>
 
-                <p class="mt-3" style="line-height: 1.8; font-size: 1.1rem; text-align: justify; color:white">
+                <div class="product-description">
                     @Model.NOIDUNG
-                </p>
+                </div>
 
-
-                <div class="mt-4">
-                        <a class="btn btn-success btn-lg px-4" href="@Url.Action("ThemGio", "Cart", new { masach = @Model.MASACH, url = Request.RawUrl })">
-                            Thêm vào giỏ
-                        </a>
-                    <a href="@Url.Action("Index","Sach")" class="btn btn-outline-secondary btn-lg px-4 ms-2">
-                        <i class="bi bi-arrow-left"></i> Quay lại
+                <div class="action-buttons">
+                    <a href="@Url.Action("ThemGio", "Cart", new { masach = Model.MASACH, url = Request.RawUrl })"
+                       class="btn-add-cart">
+                        🛒 Thêm vào giỏ hàng
+                    </a>
+                    <a href="@Url.Action("Index", "Sach")" class="btn-back">
+                        ← Quay lại
                     </a>
                 </div>
             </div>
         </div>
-        
-        <!-- Gợi ý sản phẩm liên quan -->
-        <div class="related-products mt-5">
-            <h4 class="mb-4 text-light">Sản phẩm liên quan</h4>
+
+        <!-- Related Products -->
+        <div class="related-section fade-up">
+            <div class="section-header">
+                <h2 class="section-title">Sản phẩm liên quan</h2>
+            </div>
 
             @if (ViewBag.Messagelq != null)
             {
-                <div class="alert alert-info">@ViewBag.Messagelq</div>
+                <div class="custom-alert">
+                    <span>ℹ️</span>
+                    @ViewBag.Messagelq
+                </div>
             }
-            <div class="row g-4">
+
+            <div class="products-grid">
                 @foreach (var item in lienquan)
                 {
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <a href="@Url.Action("ChiTietSach", "Sach", new { masach = @item.MASACH })">
-                            <article class="product-card card h-100 border-0 bg-transparent text-center">
-                                <div class="thumb position-relative overflow-hidden rounded">
-                                    <img src="~/Content/HinhAnh/@item.ANHBIA"
-                                         alt="@item.TENSACH"
-                                         class="card-img-top img-fluid"
-                                         style="object-fit: cover; height: 250px;" />
+                    <article class="product-card">
+                        <a href="@Url.Action("ChiTietSach", "Sach", new { masach = item.MASACH })">
+                            <div class="card-image">
+                                <img src="~/Content/HinhAnh/@item.ANHBIA" alt="@item.TENSACH" />
+                                <div class="card-overlay">
                                 </div>
-
-                                <div class="card-body d-flex flex-column justify-content-between">
-                                    <h5 class="card-title text-truncate text-light mb-2">@item.TENSACH</h5>
-
-                                    <p class="price mb-3">
-                                        <span class="text-warning fw-bold">
-                                            @String.Format("{0:#,##0}", item.GIABAN) VNĐ
-                                        </span>
-                                    </p>
-                                    </div>
-                            </article>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">@item.TENSACH</h3>
+                                <p class="card-price">@String.Format("{0:#,##0}", item.GIABAN) VNĐ</p>
+                            </div>
                         </a>
-                    </div>
+                    </article>
                 }
             </div>
         </div>
 
-        <!-- Sản phẩm cùng nhà sản xuất -->
-        <div class="related-products mt-5">
-            <h4 class="mb-4 text-light">Cùng nhà xuất bản</h4>
+        <!-- Same Publisher Products -->
+        <div class="related-section fade-up">
+            <div class="section-header">
+                <h2 class="section-title">Cùng nhà xuất bản</h2>
+            </div>
 
             @if (ViewBag.Messagenxb != null)
             {
-                <div class="alert alert-info">@ViewBag.Messagenxb</div>
+                <div class="custom-alert">
+                    <span>ℹ️</span>
+                    @ViewBag.Messagenxb
+                </div>
             }
-            <div class="row g-4">
+
+            <div class="products-grid">
                 @foreach (var item in nxb)
                 {
-
-                    <div class="col-6 col-md-4 col-lg-3">
-                        <a href="@Url.Action("ChiTietSach", "Sach", new { masach = @item.MASACH })">
-                            <article class="product-card card h-100 border-0 bg-transparent text-center">
-                                <div class="thumb position-relative overflow-hidden rounded">
-                                    <img src="~/Content/HinhAnh/@item.ANHBIA"
-                                         alt="@item.TENSACH"
-                                         class="card-img-top img-fluid"
-                                         style="object-fit: cover; height: 250px;" />
+                    <article class="product-card">
+                        <a href="@Url.Action("ChiTietSach", "Sach", new { masach = item.MASACH })">
+                            <div class="card-image">
+                                <img src="~/Content/HinhAnh/@item.ANHBIA" alt="@item.TENSACH" />
+                                <div class="card-overlay">
                                 </div>
-
-                                <div class="card-body d-flex flex-column justify-content-between">
-                                    <h5 class="card-title text-truncate text-light mb-2">@item.TENSACH</h5>
-
-                                    <p class="price mb-3">
-                                        <span class="text-warning fw-bold">
-                                            @String.Format("{0:#,##0}", item.GIABAN) VNĐ
-                                        </span>
-                                    </p>
-                                </div>
-                            </article>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">@item.TENSACH</h3>
+                                <p class="card-price">@String.Format("{0:#,##0}", item.GIABAN) VNĐ</p>
+                            </div>
                         </a>
-                    </div>
+                    </article>
                 }
             </div>
         </div>
+
     </div>
 </section>
 
+<script>
+    function increaseQty() {
+        var input = document.getElementById('quantity');
+        input.value = parseInt(input.value) + 1;
+    }
+
+    function decreaseQty() {
+        var input = document.getElementById('quantity');
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+</script>

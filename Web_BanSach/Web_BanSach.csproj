@@ -119,10 +119,13 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Css\btn.css" />
+    <Content Include="Content\Css\Cart.css" />
     <Content Include="Content\Css\DanhMuc.css" />
     <Content Include="Content\Css\Home.css" />
     <Content Include="Content\Css\Login.css" />
     <Content Include="Content\Css\Register.css" />
+    <Content Include="Content\Css\Sach.css" />
+    <Content Include="Content\Css\SCTS1.css" />
     <Content Include="Content\Css\Style.css" />
     <Content Include="Content\Css\chitietsach.css" />
     <Content Include="Content\HinhAnh\daoduc.jpg" />

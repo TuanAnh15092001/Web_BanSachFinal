@@ -5,7 +5,6 @@
 }
 
 .admin-container {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     min-height: 100vh;
     padding: 30px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -119,6 +118,7 @@
 /* === TABLE CONTAINER === */
 .table-container {
     background: linear-gradient(145deg, #1e293b, #0f172a);
+  
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);

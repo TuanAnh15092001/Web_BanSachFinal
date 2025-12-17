@@ -28,6 +28,7 @@ namespace Web_BanSach.Controllers
             {
                 FormsAuthentication.SetAuthCookie(kh.EMAIL, true);
                 // Set session KH
+                Session["KH"] = kh;
                 Session["MA"] = kh.MAKHACHHANG;
                 Session["TEN"] = kh.TENKHACHHANG;
                 Session["LOAI_TK"] = "KHACHHANG";

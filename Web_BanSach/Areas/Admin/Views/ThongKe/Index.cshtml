@@ -9,8 +9,8 @@
     /* Container chính */
     .stats-container {
         padding: 30px;
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        min-height: 100vh;
+        background-color:transparent;
+        width:100%;
     }
 
     /* Header section */
@@ -501,9 +501,6 @@
             </div>
             <div class="label">Tổng đơn hàng</div>
             <div class="value">@Model.Count()</div>
-            <div class="change up">
-                <i class="fas fa-arrow-up"></i> 12% so với tháng trước
-            </div>
         </div>
 
         <div class="stat-card revenue">
@@ -512,9 +509,6 @@
             </div>
             <div class="label">Tổng doanh thu</div>
             <div class="value">@String.Format("{0:#,##0}đ", Model.Sum(x => x.TONGTIEN ?? 0))</div>
-            <div class="change up">
-                <i class="fas fa-arrow-up"></i> 8% so với tháng trước
-            </div>
         </div>
 
         <div class="stat-card customers">
@@ -522,23 +516,15 @@
                 <i class="fas fa-users"></i>
             </div>
             <div class="label">Khách hàng</div>
-            <div class="value">@Model.Select(x => x.MAKHACHHANG).Distinct().Count()</div>
-            <div class="change up">
-                <i class="fas fa-arrow-up"></i> 5% so với tháng trước
-            </div>
-        </div>
-
-        <div class="stat-card avg">
-            <div class="icon">
-                <i class="fas fa-receipt"></i>
-            </div>
-            <div class="label">Trung bình/đơn</div>
-            @{
-                var avgOrder = Model.Any() ? Model.Average(x => x.TONGTIEN ?? 0) : 0;
-            }
-            <div class="value">@String.Format("{0:#,##0}đ", avgOrder)</div>
-            <div class="change down">
-                <i class="fas fa-arrow-down"></i> 2% so với tháng trước
+            <div class="value">
+                @if (ViewBag.TongKhachHang != null)
+                {
+                    @ViewBag.TongKhachHang
+                }
+                else
+                {
+                    <span style="color: red;">0</span>
+                }
             </div>
         </div>
     </div>
@@ -551,13 +537,6 @@
                 Danh sách hóa đơn
             </div>
             <div class="table-actions">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Tìm kiếm hóa đơn..." id="searchInput">
-                </div>
-                <button class="btn-filter">
-                    <i class="fas fa-filter"></i> Lọc
-                </button>
                 <button class="btn-export">
                     <i class="fas fa-download"></i> Xuất Excel
                 </button>
@@ -574,7 +553,6 @@
                         <th>Ngày lập</th>
                         <th>Tổng tiền</th>
                         <th>Địa chỉ</th>
-                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -608,19 +586,6 @@
                                 <div class="address" title="@item.DIACHI">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <span>@item.DIACHI</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn-action btn-view" title="Xem chi tiết">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn-action btn-edit" title="Chỉnh sửa">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn-action btn-delete" title="Xóa">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
                                 </div>
                             </td>
                         </tr>

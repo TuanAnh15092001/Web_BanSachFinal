@@ -13,6 +13,7 @@ namespace Web_BanSach.Areas.Admin.Controllers
         public ActionResult Index()
         {
             List<HOADON> listHD = db.HOADONs.ToList();
+            ViewBag.TongKhachHang = db.KHACHHANGs.Count();
             return View(listHD);
         }
     }
