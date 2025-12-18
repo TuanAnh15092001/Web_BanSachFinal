@@ -223,13 +223,13 @@
                                 <i class="fa fa-user"></i> Xin chào, @Session["TEN"]
                             </a>
                             <div class="dropdown-menu">
-                                <a href="#">
+                                <a href="@Url.Action("XemThongTin","KhachHang")">
                                     <i class="fa fa-eye"></i> Xem thông tin
                                 </a>
-                                <a href="#">
+                                <a href="@Url.Action("SuaThongTin","KhachHang")">
                                     <i class="fa fa-edit"></i> Sửa thông tin
                                 </a>
-                                <a href="#">
+                                <a href="@Url.Action("ThongTinDonHang","KhachHang")">
                                     <i class="fa fa-edit"></i> Thông tin đơn hàng
                                 </a>
                                 <div class="divider"></div>

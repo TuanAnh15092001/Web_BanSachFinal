@@ -10,11 +10,27 @@ namespace Web_BanSach.Controllers
     public class AcountController : Controller
     {
         QL_SACHEntities ql = new QL_SACHEntities();
-        public ActionResult Login()
+        [HttpGet]
+        public ActionResult Login(string email, string matkhau)
         {
             ViewBag.Url = !String.IsNullOrEmpty(Request.UrlReferrer.ToString()) ? Request.UrlReferrer.ToString() : "/";
+            // Tìm khách hàng theo email + mật khẩu
+            var kh = ql.KHACHHANGs
+                       .SingleOrDefault(k => k.EMAIL == email && k.MATKHAU == matkhau);
+
+            if (kh != null)
+            {
+                // Lưu thông tin vào Session
+                Session["TEN"] = kh.TENKHACHHANG;     // bạn đang dùng để "Xin chào"
+                Session["MaKH"] = kh.MAKHACHHANG;      // THÊM DÒNG NÀY
+
+                return RedirectToAction("Index", "Sach");
+            }
+
+            ViewBag.Error = "Sai tài khoản hoặc mật khẩu";
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult XuLyFormDN(FormCollection f, string duongdan)
@@ -33,13 +49,15 @@ namespace Web_BanSach.Controllers
                 Session["TEN"] = kh.TENKHACHHANG;
                 Session["LOAI_TK"] = "KHACHHANG";
 
+                // QUAN TRỌNG: thêm dòng này cho KhachHangController dùng
+                Session["MaKH"] = kh.MAKHACHHANG;
+
                 // Redirect về trang trước khi login (duongdan) hoặc default
                 if (!string.IsNullOrEmpty(duongdan))
                     return Redirect(duongdan);
 
-                return RedirectToAction("Index", "Cart"); // default
+                return RedirectToAction("Index", "Sach"); // default
             }
-
 
             // Kiểm tra nhân viên
             var nv = ql.NHANVIENs.FirstOrDefault(n => n.EMAIL == email && n.MATKHAU == pass);
@@ -62,7 +80,6 @@ namespace Web_BanSach.Controllers
             ViewBag.Loi = "Email hoặc mật khẩu không đúng";
             return View("Login");
         }
-
 
         // =======================
         // Hàm xử lý redirect hợp lý

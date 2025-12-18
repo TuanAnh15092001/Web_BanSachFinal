@@ -327,6 +327,9 @@
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\DatHang\Checkout.cshtml" />
     <Content Include="Views\DatHang\Success.cshtml" />
+    <Content Include="Views\KhachHang\XemThongTin.cshtml" />
+    <Content Include="Views\KhachHang\SuaThongTin.cshtml" />
+    <Content Include="Views\KhachHang\ThongTinDonHang.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

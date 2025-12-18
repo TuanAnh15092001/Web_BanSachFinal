@@ -1,0 +1,250 @@
+﻿@model Web_BanSach.KHACHHANG
+@{
+    ViewBag.Title = "Thông tin khách hàng";
+    Layout = "~/Views/Shared/_LayoutSach.cshtml";
+}
+
+<style>
+    .profile-container {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+
+    .profile-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        border: 3px solid rgba(255,255,255,0.5);
+    }
+
+    .profile-header h2 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .profile-header p {
+        margin: 5px 0 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+
+    .profile-body {
+        padding: 25px 30px;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+    .info-icon {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+
+        .info-icon i {
+            color: white;
+            font-size: 18px;
+        }
+
+    .info-content {
+        flex: 1;
+    }
+
+    .info-label {
+        font-size: 12px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 3px;
+    }
+
+    .info-value {
+        font-size: 16px;
+        color: #333;
+        font-weight: 500;
+    }
+
+    .profile-footer {
+        padding: 20px 30px 30px;
+        text-align: center;
+    }
+
+    .btn-edit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 35px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+    .btn-back {
+        color: #667eea;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+        .btn-back:hover {
+            color: #764ba2;
+            text-decoration: none;
+        }
+
+    /* Responsive */
+    @@media (max-width: 576px) {
+        .profile-header {
+            padding: 20px;
+        }
+
+        .profile-body {
+            padding: 15px 20px;
+        }
+
+        .info-item {
+            padding: 12px 0;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+        }
+    }
+</style>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<div class="profile-container">
+    <div class="profile-card">
+        <!-- Header với Avatar -->
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <h2>@Model.TENKHACHHANG</h2>
+            <p><i class="fas fa-id-badge"></i> Mã KH: @Model.MAKHACHHANG</p>
+        </div>
+
+        <!-- Thông tin chi tiết -->
+        <div class="profile-body">
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">Họ và tên</div>
+                    <div class="info-value">@Model.TENKHACHHANG</div>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">Số điện thoại</div>
+                    <div class="info-value">
+                        @if (!string.IsNullOrEmpty(Model.SDT))
+                        {
+                            @Model.SDT
+                        }
+                        else
+                        {
+                            <span style="color: #999; font-style: italic;">Chưa cập nhật</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">
+                        @if (!string.IsNullOrEmpty(Model.EMAIL))
+                        {
+                            @Model.EMAIL
+                        }
+                        else
+                        {
+                            <span style="color: #999; font-style: italic;">Chưa cập nhật</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="info-content">
+                    <div class="info-label">Địa chỉ</div>
+                    <div class="info-value">
+                        @if (!string.IsNullOrEmpty(Model.DIACHI))
+                        {
+                            @Model.DIACHI
+                        }
+                        else
+                        {
+                            <span style="color: #999; font-style: italic;">Chưa cập nhật</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
