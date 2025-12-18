@@ -65,8 +65,12 @@ namespace Web_BanSach.Areas.Admin.Controllers
         //GET: Sach/xoá loại sách
         public ActionResult ViewDelete(int? id)
         {
-            var saches = sach.BANGSACHes.Find(id);
-            return View(saches);
+            var s = sach.BANGSACHes.Find(id);
+            if (s == null)
+            {
+                return HttpNotFound();
+            }
+            return View(s);
         }
 
         [HttpPost]
